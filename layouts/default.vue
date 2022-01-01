@@ -1,7 +1,7 @@
 <template>
   <div class="default-layout">
     <a-layout>
-      <a-layout-header>Header</a-layout-header>
+      <Navbar />
       <a-layout-content><Nuxt /></a-layout-content>
       <a-layout-footer>Footer</a-layout-footer>
     </a-layout>
@@ -9,7 +9,13 @@
 </template>
 
 <script>
-export default {};
+import Navbar from "../components/layout/Navbar.vue";
+
+export default {
+  components: {
+    Navbar,
+  },
+};
 </script>
 
 <style lang="less" scoped>
