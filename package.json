@@ -9,8 +9,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "1.4.1",
     "ant-design-vue": "1.7.8",
+    "axios": "0.24.0",
     "core-js": "3.19.3",
+    "cors": "2.8.5",
+    "express": "4.17.2",
     "less": "4.1.2",
     "less-loader": "7.3.0",
     "nuxt": "2.15.8",

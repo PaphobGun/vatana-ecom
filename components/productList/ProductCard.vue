@@ -1,0 +1,117 @@
+<template>
+  <div class="product-card">
+    <div class="top">
+      <img class="product-image" :src="selectedColor.url" alt="" />
+      <div class="colors">
+        <div
+          class="color-item"
+          v-for="(color, cidx) in item.img"
+          :key="cidx"
+          :style="{ 'background-color': color.color }"
+          @click="() => selectColor(color)"
+        />
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="name">
+        {{ item.name }}
+      </div>
+      <div class="size-wrapper">
+        <div class="size-item" v-for="(size, idx) in item.size" :key="idx">
+          {{ size }}
+        </div>
+      </div>
+      <div class="price">{{ item.price }} ฿</div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      selectedColor: {},
+    };
+  },
+  created() {
+    this.selectedColor = this.item.img[0];
+  },
+  methods: {
+    selectColor(color) {
+      this.selectedColor = color;
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.product-card {
+  border-radius: 4px;
+  border: 1px solid #f1f1f1;
+  margin-right: 16px;
+  margin-bottom: 16px;
+
+  .top {
+    position: relative;
+    .product-image {
+      width: 190px;
+    }
+
+    .colors {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      display: flex;
+      flex-wrap: wrap;
+
+      .color-item {
+        cursor: pointer;
+        margin-right: 5px;
+        width: 20px;
+        height: 20px;
+        box-shadow: 0px 3px 6px #00000029;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .bottom {
+    padding: 10px;
+
+    .name {
+      font-size: 16px;
+      color: #000;
+      margin-bottom: 10px;
+      font-weight: 300s;
+    }
+
+    .size-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+
+      .size-item {
+        border: 1px solid #000;
+        border-radius: 2px;
+        margin-right: 5px;
+        width: 16px;
+        height: 16px;
+        text-align: center;
+
+        font-size: 10px;
+      }
+    }
+
+    .price {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #000;
+    }
+  }
+}
+</style>
