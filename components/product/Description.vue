@@ -32,27 +32,24 @@
     <div class="flex-wrap">
       <a-row class="flex-wrap center" style="">
         <a-row class="flex-wrap">
-          <b-button class="input-bt input-bt-add" style="" v-on:click="add()">
+          <div class="input-bt input-bt-add" style="" v-on:click="add()">
             +
-          </b-button>
-          <div class="input-bt" style="width: 80px" type="text">
+          </div>
+          <div class="input-bt input-bt-qty" type="text">
             <div class="count-text-cart">
               {{ qty }}
             </div>
           </div>
-          <b-button
+          <div
             class="input-bt input-bt-remove"
             style=""
             v-on:click="remove()"
           >
             -
-          </b-button>
+          </div>
           <button class="button-add">ADD TO CART</button>
           <div class="fav-item">
-            <font-awesome-icon
-              class="social-item"
-              icon="fa-solid fa-heart"
-            />
+            <font-awesome-icon class="social-item" icon="fa-solid fa-heart" />
           </div>
         </a-row>
       </a-row>
@@ -185,7 +182,7 @@ export default {
 <style lang="less" scoped>
 .fa-heart {
   text-shadow: #000;
-  color: #000;  
+  color: #000;
 }
 .fav-item {
   border: 1px solid #000;
@@ -200,6 +197,26 @@ export default {
   justify-content: center;
   align-items: center;
   margin-left: 25px;
+}
+
+.input-bt {
+  outline: none;
+  cursor: pointer;
+  border: 0;
+  font-size: 0.885rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s cubic-bezier(0.4, 0, 0.6, 1);
+  border: 1px solid #000;
+  border-radius: 2px;
+  background: transparent;
+  color: #000;
+  width: 33px;
+  height: 33px;
 }
 
 .button-add {
@@ -223,6 +240,10 @@ export default {
 .input-bt-remove {
   border-left-width: 0px;
   border-radius: 0px 8px 8px 0px;
+}
+
+.input-bt-qty {
+  width: 80px;
 }
 
 .flex-wrap {
@@ -328,26 +349,6 @@ export default {
   color: #000;
 }
 
-.input-bt {
-  outline: none;
-  cursor: pointer;
-  border: 0;
-  font-size: 0.885rem;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.1s cubic-bezier(0.4, 0, 0.6, 1);
-  border: 1px solid #000;
-  border-radius: 2px;
-  background: transparent;
-  color: #000;
-  width: 33px;
-  height: 33px;
-}
-
 ::v-deep .ant-collapse {
   border: none;
   background: none;
@@ -362,5 +363,21 @@ export default {
 
 ::v-deep .ant-collapse-content > .ant-collapse-content-box {
   padding-left: 0px;
+}
+
+@media screen and (max-width: 600px) {
+  .input-bt-qty {
+    width: 40px;
+  }
+
+  .button-add {
+    font-size: 12px;
+    padding: 5px 15px;
+    margin-left: 10px;
+  }
+
+  .fav-item {
+    margin-left: 10px;
+  }
 }
 </style>

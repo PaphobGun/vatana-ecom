@@ -17,6 +17,20 @@ export default {
   components: {
     Navbar,
   },
+  methods: {
+    resize() {
+      this.$store.dispatch("common/setDimension");
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.resize);
+    window.onNuxtReady?.((app) => {
+      this.resize();
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.resize);
+  },
 };
 </script>
 

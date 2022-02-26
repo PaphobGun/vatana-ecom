@@ -2,12 +2,13 @@
   <div class="main-warpper">
     <a-row v-if="product">
       <a-col :lg="{ span: 12 }">
-        <Gallery :item="images" /> 
-        <RelatedProduct :products="relatedProducts" />
+        <Gallery :item="images" />
+        <RelatedProduct v-if="!isMobile" :products="relatedProducts" />
       </a-col>
       <a-col :lg="{ span: 11, offset: 1 }">
         <Description :item="product" :selectColor="selectColor" />
       </a-col>
+      <RelatedProduct v-if="isMobile" :products="relatedProducts" />
     </a-row>
   </div>
 </template>
@@ -18,7 +19,7 @@ import { mapActions, mapGetters } from "vuex";
 import ProductList from "../../components/productList";
 import Gallery from "../../components/product/Gallery.vue";
 import Description from "../../components/product/Description.vue";
-import RelatedProduct from '../../components/product/RelatedProduct.vue'
+import RelatedProduct from "../../components/product/RelatedProduct.vue";
 
 export default {
   components: {
@@ -42,7 +43,6 @@ export default {
         id: this.$route.params,
       }),
     ]).then((item) => {
-      console.log('item', item);
       this.images = item[0].img[0];
     });
   },
@@ -54,6 +54,7 @@ export default {
   },
   computed: {
     ...mapGetters("product", ["product", "relatedProducts"]),
+    ...mapGetters("common", ["isMobile"]),
   },
   watch: {
     getProduct: {

@@ -1,9 +1,14 @@
 <template>
   <div class="main-warpper">
     <div class="related">Related Products</div>
-    <a-space direction="vertical" class="pagination-product">
-      <ProductCard v-for="(item, idx) in products" :key="idx" :item="item" />
-    </a-space>
+    <div  direction="vertical" class="pagination-product">
+      <ProductCard
+  
+        v-for="(item, idx) in products"
+        :key="idx"
+        :item="item"
+      />
+    </div>
   </div>
 </template>
 
@@ -14,7 +19,7 @@ import ProductCard from "../productList/ProductCard.vue";
 export default {
   props: {
     products: {
-      type: Object,
+      type: Array,
       default: () => [],
     },
   },
@@ -35,10 +40,21 @@ export default {
 .pagination-product {
   flex-wrap: wrap;
   flex-direction: row;
+  display: flex;
 }
 
 .related {
   font-size: 24px;
   color: #000000;
+}
+
+@media screen and (max-width: 600px) {
+  ::v-deep .product-card .top .product-image {
+    width: 100%;
+  }
+
+  .product-card {
+    width: 43%;
+  }
 }
 </style>

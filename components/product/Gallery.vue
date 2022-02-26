@@ -1,7 +1,7 @@
 <template>
   <div class="pagination-product">
     <a-row>
-      <a-col class="group-list" :span="4">
+      <a-col v-if="!isMobile" class="group-list" :lg="{ span: 4 }" :md="{ span: 4 }">
         <div
           class=""
           v-for="(img, idx) in item.images"
@@ -11,9 +11,19 @@
           <img class="group-item" :src="img.url" alt="" />
         </div>
       </a-col>
-      <a-col :span="19" :offset="1" >
+      <a-col :lg="{ span: 19 }" :md="{ span: 19 }" :offset="1">
         <img class="product-image" :src="image.url" alt="" />
       </a-col>
+      <div v-if="isMobile" :sm="{ span: 24 }" class="group-warpper">
+        <a-row
+          class=""
+          v-for="(img, idx) in item.images"
+          :key="idx"
+          @click="() => selectImg(idx)"
+        >
+          <img class="group-item" :src="img.url" alt="" />
+        </a-row>
+      </div>
     </a-row>
   </div>
 </template>
@@ -41,16 +51,17 @@ export default {
   },
   methods: {
     selectImg(index) {
+      console.log('------', index);
       this.image = this.item.images[index];
     },
   },
   computed: {
     ...mapGetters("product", ["product"]),
+    ...mapGetters("common", ["isMobile", "dimension"]),
   },
   watch: {
     item: {
       handler: async function () {
-        console.log("==  item =======", this.item);
         this.image = this.item.images[0];
       },
       deep: true,
@@ -79,5 +90,28 @@ export default {
 .product-image {
   width: 100%;
   height: 500px;
+}
+
+@media screen and (max-width: 600px) {
+
+  .group-warpper {
+    display: flex;
+    overflow: scroll;
+    width: calc(100vw - 100px);
+    margin-top: 15px;
+  }
+  .group-list {
+    height: 50px;
+  }
+
+  .group-item {
+    width: 80px;
+    padding: 5px;
+  }
+
+  .product-image {
+    width: calc(100vw - 100px);
+    height: auto;
+  }
 }
 </style>
