@@ -316,14 +316,15 @@ export default {
     border: 1px solid #000;
     border-radius: 2px;
     margin-right: 5px;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     text-align: center;
 
     font-size: 10px;
     display: inherit;
     justify-content: center;
     align-items: center;
+    padding: 5px;
   }
 }
 

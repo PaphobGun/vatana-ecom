@@ -4,7 +4,7 @@ import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import specific icons */
-import { faUserSecret, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faHeart, faBars } from '@fortawesome/free-solid-svg-icons'
 
 import { faFacebookF, faFacebookMessenger, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons'
 

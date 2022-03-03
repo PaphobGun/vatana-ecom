@@ -1,14 +1,14 @@
 <template>
   <div class="main-warpper">
     <a-row v-if="product">
-      <a-col :lg="{ span: 12 }">
+      <a-col :lg="{ span: 12 }" :md="{ span: 12 }">
         <Gallery :item="images" />
-        <RelatedProduct v-if="!isMobile" :products="relatedProducts" />
+        <RelatedProduct v-if="!isMobile && !isTablet" :products="relatedProducts" />
       </a-col>
-      <a-col :lg="{ span: 11, offset: 1 }">
+      <a-col :lg="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }">
         <Description :item="product" :selectColor="selectColor" />
       </a-col>
-      <RelatedProduct v-if="isMobile" :products="relatedProducts" />
+      <RelatedProduct v-if="isMobile || isTablet" :products="relatedProducts" />
     </a-row>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     ...mapGetters("product", ["product", "relatedProducts"]),
-    ...mapGetters("common", ["isMobile"]),
+    ...mapGetters("common", ["isMobile", "isTablet"]),
   },
   watch: {
     getProduct: {

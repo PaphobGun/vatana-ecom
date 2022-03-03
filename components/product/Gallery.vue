@@ -1,7 +1,7 @@
 <template>
   <div class="pagination-product">
     <a-row>
-      <a-col v-if="!isMobile" class="group-list" :lg="{ span: 4 }" :md="{ span: 4 }">
+      <a-col v-if="!isMobile && !isTablet" class="group-list" :lg="{ span: 4 }" :md="{ span: 4 }">
         <div
           class=""
           v-for="(img, idx) in item.images"
@@ -14,7 +14,7 @@
       <a-col :lg="{ span: 19 }" :md="{ span: 19 }" :offset="1">
         <img class="product-image" :src="image.url" alt="" />
       </a-col>
-      <div v-if="isMobile" :sm="{ span: 24 }" class="group-warpper">
+      <div v-if="isMobile || isTablet" :sm="{ span: 24 }" class="group-warpper">
         <a-row
           class=""
           v-for="(img, idx) in item.images"
@@ -51,13 +51,12 @@ export default {
   },
   methods: {
     selectImg(index) {
-      console.log('------', index);
       this.image = this.item.images[index];
     },
   },
   computed: {
     ...mapGetters("product", ["product"]),
-    ...mapGetters("common", ["isMobile", "dimension"]),
+    ...mapGetters("common", ["isMobile", "dimension", "isTablet"]),
   },
   watch: {
     item: {
@@ -92,7 +91,7 @@ export default {
   height: 500px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
 
   .group-warpper {
     display: flex;
