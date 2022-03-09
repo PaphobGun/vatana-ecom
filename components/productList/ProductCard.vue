@@ -88,7 +88,7 @@ export default {
       font-size: 16px;
       color: #000;
       margin-bottom: 10px;
-      font-weight: 300s;
+      font-weight: 300;
     }
 
     .size-wrapper {
@@ -111,6 +111,22 @@ export default {
       margin-top: 10px;
       font-size: 16px;
       color: #000;
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    max-width: 135px;
+
+    .top {
+      .product-image {
+        width: 100%;
+      }
+    }
+
+    .bottom {
+      .name {
+        font-size: 14px;
+      }
     }
   }
 }

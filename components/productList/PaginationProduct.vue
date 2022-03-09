@@ -25,5 +25,9 @@ export default {
 .pagination-product {
   display: flex;
   flex-wrap: wrap;
+
+  @media only screen and (max-width: 576px) {
+    justify-content: center;
+  }
 }
 </style>

@@ -26,5 +26,11 @@ export default {
     padding: 0 50px;
     background-color: #fff;
   }
+
+  @media only screen and (max-width: 576px) {
+    .default-layout-content {
+      padding: 0 30px;
+    }
+  }
 }
 </style>

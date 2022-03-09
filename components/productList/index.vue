@@ -1,7 +1,7 @@
 <template>
   <div class="product-list">
     <a-row>
-      <a-col :lg="{ span: 6 }"
+      <a-col :lg="{ span: 6 }" :xs="{ span: 0 }"
         ><Filters
           :onCollectionsChange="onCollectionsChange"
           :onCategoriesChange="onCategoriesChange"
@@ -10,7 +10,7 @@
           :onSizeChange="onSizeChange"
           :onDelFilter="onDelFilter"
       /></a-col>
-      <a-col :lg="{ span: 17, offset: 1 }">
+      <a-col :lg="{ span: 17, offset: 1 }" :xs="{ span: 24 }">
         <div class="sort-wrapper">
           <div class="count">{{ totalItems }} items</div>
           <div class="sort">

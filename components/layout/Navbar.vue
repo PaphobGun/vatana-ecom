@@ -5,6 +5,7 @@
       <div class="menu-item">PROMOTION</div>
       <div class="menu-item">LOOKBOOK</div>
     </div>
+    <div class="burger-menu">Burger</div>
     <div class="center-menu">
       <div class="logo-title">LOGO</div>
     </div>
@@ -40,6 +41,10 @@ export default {};
     }
   }
 
+  .burger-menu {
+    display: none;
+  }
+
   .center-menu {
     position: absolute;
     left: 50%;
@@ -71,6 +76,16 @@ export default {};
       margin-right: 10px;
       font-size: 16px;
       color: #000;
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    .left-menu {
+      display: none;
+    }
+
+    .burger-menu {
+      display: block;
     }
   }
 }
