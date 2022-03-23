@@ -1,27 +1,31 @@
 <template>
   <a-layout-header class="nav-header">
-    <section class="top-nav">
-      <input id="menu-toggle" type="checkbox" />
-      <label class="menu-button-container" for="menu-toggle">
-        <div class="menu-button"></div>
-      </label>
-      <ul class="menu">
-        <li class="menu-dis">PRODUCT</li>
-        <li class="menu-dis">PROMOTION</li>
-        <li class="menu-dis">LOOKBOOK</li>
-      </ul>
-    </section>
+    <div class="container">
+      <section class="top-nav">
+        <input id="menu-toggle" type="checkbox" />
+        <label class="menu-button-container" for="menu-toggle">
+          <div class="menu-button"></div>
+        </label>
+        <ul class="menu">
+          <li class="menu-dis">
+            <nuxt-link to="/products"> PRODUCT </nuxt-link>
+          </li>
+          <li class="menu-dis">PROMOTION</li>
+          <li class="menu-dis">LOOKBOOK</li>
+        </ul>
+      </section>
 
-    <div class="center-menu">
-      <div class="logo-title">LOGO</div>
-    </div>
-    <div class="right-menu">
-      <a-icon class="menu-icon" type="search" />
-      <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
-      <a-icon class="menu-icon" type="shopping" />
-      <a-icon v-if="isTablet" class="menu-icon" type="user" />
+      <div class="center-menu">
+        <nuxt-link to="/" class="logo-title">LOGO</nuxt-link>
+      </div>
+      <div class="right-menu">
+        <a-icon class="menu-icon" type="search" />
+        <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
+        <a-icon class="menu-icon" type="shopping" />
+        <a-icon v-if="isTablet" class="menu-icon" type="user" />
 
-      <div v-if="!isMobile && !isTablet" class="menu-item">SIGN IN</div>
+        <div v-if="!isMobile && !isTablet" class="menu-item">SIGN IN</div>
+      </div>
     </div>
   </a-layout-header>
 </template>
@@ -54,6 +58,13 @@ body {
   box-sizing: border-box;
 }
 
+.container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .top-nav {
   display: flex;
   flex-direction: row;
@@ -61,7 +72,6 @@ body {
   justify-content: space-between;
   color: #000;
   height: 95px;
-  padding: 1em;
 }
 
 .menu {
@@ -73,8 +83,14 @@ body {
 }
 
 .menu > li {
-  margin: 0 1rem;
+  margin-right: 1rem;
   line-height: initial;
+}
+
+.menu {
+  a {
+    color: #000;
+  }
 }
 
 .menu-button-container {
@@ -227,7 +243,6 @@ body {
     }
 
     .menu-item {
-      margin-right: 10px;
       font-size: 16px;
       color: #000;
     }

@@ -11,7 +11,7 @@ export default {
   },
   async getCategories({ commit }) {
     const categories = await HttpClient.call({
-      url: "/categories",
+      url: "/category",
       method: "GET",
     });
 

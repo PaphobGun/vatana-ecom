@@ -2,62 +2,149 @@
   <div class="footer">
     <hr />
     <a-layout-footer>
-      <a-row class="main-warpper">
-        <a-col
-          :gutter="{ lg: 16 }"
-          :lg="{ span: 12 }"
-          :md="{ span: 18 }"
-          :sm="{ span: 18 }"
-          :xs="24"
-        >
-          <a-row class="main-warpper">
-            <a-col
-              :lg="{ span: 8 }"
-              :md="{ span: 8 }"
-              :sm="{ span: 7 }"
-              :xs="7"
-            >
-              <h3>About</h3>
-              <a-col class="group-warpper">
-                <a href="#">Product</a>
-                <a href="#">Lookbook</a>
-                <a href="#">Policy</a>
-                <a href="#">Careers</a>
+      <div class="container">
+        <a-row class="main-warpper">
+          <a-col
+            :gutter="{ lg: 16 }"
+            :lg="{ span: 12 }"
+            :md="{ span: 18 }"
+            :sm="{ span: 18 }"
+            :xs="24"
+          >
+            <a-row class="main-warpper">
+              <a-col
+                :lg="{ span: 8 }"
+                :md="{ span: 8 }"
+                :sm="{ span: 7 }"
+                :xs="7"
+              >
+                <h3>About</h3>
+                <a-col class="group-warpper">
+                  <a href="#">Product</a>
+                  <a href="#">Lookbook</a>
+                  <a href="#">Policy</a>
+                  <a href="#">Careers</a>
+                </a-col>
               </a-col>
-            </a-col>
-            <a-col
-              :lg="{ span: 8 }"
-              :md="{ span: 8 }"
-              :sm="{ span: 7 }"
-              :xs="7"
-            >
-              <h3>Help</h3>
-              <div class="group-warpper">
-                <a href="#">Payment</a>
-                <a href="#">Shipping</a>
-                <a href="#">Exchange</a>
-                <a href="#">Returns</a>
-                <a href="#">FAQ</a>
-              </div>
-            </a-col>
-            <a-col
-              :lg="{ span: 8 }"
-              :md="{ span: 8 }"
-              :sm="{ span: 8 }"
-              :xs="10"
-            >
-              <h3>Contact</h3>
-              <div class="group-warpper">
-                <a href="#">example@company.com</a>
-                <a href="#">+66 2123 4567</a>
-                <a href="#">+66 2123 4567</a>
-              </div>
-            </a-col>
-          </a-row>
-        </a-col>
-        <a-col :lg="{ span: 12 }" :md="{ span: 6 }" :sm="{ span: 6 }">
-          <a-row class="main-warpper">
-            <a-col :lg="{ span: 8 }" class="follow-warpper-desktop">
+              <a-col
+                :lg="{ span: 8 }"
+                :md="{ span: 8 }"
+                :sm="{ span: 7 }"
+                :xs="7"
+              >
+                <h3>Help</h3>
+                <div class="group-warpper">
+                  <a href="#">Payment</a>
+                  <a href="#">Shipping</a>
+                  <a href="#">Exchange</a>
+                  <a href="#">Returns</a>
+                  <a href="#">FAQ</a>
+                </div>
+              </a-col>
+              <a-col
+                :lg="{ span: 8 }"
+                :md="{ span: 8 }"
+                :sm="{ span: 8 }"
+                :xs="10"
+              >
+                <h3>Contact</h3>
+                <div class="group-warpper">
+                  <a href="#">example@company.com</a>
+                  <a href="#">+66 2123 4567</a>
+                  <a href="#">+66 2123 4567</a>
+                </div>
+              </a-col>
+            </a-row>
+          </a-col>
+          <a-col :lg="{ span: 12 }" :md="{ span: 6 }" :sm="{ span: 6 }">
+            <a-row class="main-warpper">
+              <a-col :lg="{ span: 8 }" class="follow-warpper-desktop">
+                <h3>Follow Us</h3>
+                <a-row class="main-warpper">
+                  <font-awesome-icon
+                    class="social-item"
+                    icon="fa-brands fa-sm fa-facebook-f"
+                  />
+                  <font-awesome-icon
+                    class="social-item"
+                    icon="fa-brands fa-sm fa-twitter"
+                  />
+                  <font-awesome-icon
+                    class="social-item"
+                    icon="fa-brands fa-sm fa-instagram"
+                  />
+                  <font-awesome-icon
+                    class="social-item"
+                    icon="fa-brands fa-sm fa-facebook-messenger"
+                  />
+                </a-row>
+              </a-col>
+              <a-col :lg="{ span: 8 }">
+                <h3>Payment</h3>
+                <a-row class="main-warpper">
+                  <a-col
+                    class="img-warpper"
+                    :lg="{ span: 5 }"
+                    :xs="{ span: 7 }"
+                  >
+                    <img
+                      class="payment-image"
+                      src="@/assets/images/bank/visa.png"
+                      alt=""
+                    />
+                  </a-col>
+                  <a-col
+                    class="img-warpper"
+                    :lg="{ span: 5 }"
+                    :xs="{ span: 7 }"
+                  >
+                    <img
+                      class="payment-image"
+                      src="@/assets/images/bank/jcb.png"
+                      alt=""
+                    />
+                  </a-col>
+                  <a-col
+                    class="img-warpper"
+                    :lg="{ span: 5 }"
+                    :xs="{ span: 7 }"
+                  >
+                    <img
+                      class="payment-image"
+                      src="@/assets/images/bank/paypal.png"
+                      alt=""
+                    />
+                  </a-col>
+                  <a-col
+                    class="img-warpper"
+                    :lg="{ span: 5 }"
+                    :xs="{ span: 7 }"
+                  >
+                    <img
+                      class="payment-image"
+                      src="@/assets/images/bank/promptpay.png"
+                      alt=""
+                    />
+                  </a-col>
+                  <a-col
+                    class="img-warpper"
+                    :lg="{ span: 5 }"
+                    :xs="{ span: 7 }"
+                  >
+                    <img
+                      class="payment-image"
+                      src="@/assets/images/bank/kbank.png"
+                      alt=""
+                    />
+                  </a-col>
+                </a-row>
+              </a-col>
+            </a-row>
+          </a-col>
+        </a-row>
+        <a-row class="main-warpper">
+          <a-col :lg="12" :sm="10" class="letter-warpper">
+            <a-col :lg="{ span: 8 }" class="follow-warpper-mobile">
               <h3>Follow Us</h3>
               <a-row class="main-warpper">
                 <font-awesome-icon
@@ -78,89 +165,24 @@
                 />
               </a-row>
             </a-col>
-            <a-col :lg="{ span: 8 }">
-              <h3>Payment</h3>
-              <a-row class="main-warpper">
-                <a-col class="img-warpper" :lg="{ span: 5 }" :xs="{ span: 7 }">
-                  <img
-                    class="payment-image"
-                    src="@/assets/images/bank/visa.png"
-                    alt=""
-                  />
-                </a-col>
-                <a-col class="img-warpper" :lg="{ span: 5 }" :xs="{ span: 7 }">
-                  <img
-                    class="payment-image"
-                    src="@/assets/images/bank/jcb.png"
-                    alt=""
-                  />
-                </a-col>
-                <a-col class="img-warpper" :lg="{ span: 5 }" :xs="{ span: 7 }">
-                  <img
-                    class="payment-image"
-                    src="@/assets/images/bank/paypal.png"
-                    alt=""
-                  />
-                </a-col>
-                <a-col class="img-warpper" :lg="{ span: 5 }" :xs="{ span: 7 }">
-                  <img
-                    class="payment-image"
-                    src="@/assets/images/bank/promptpay.png"
-                    alt=""
-                  />
-                </a-col>
-                <a-col class="img-warpper" :lg="{ span: 5 }" :xs="{ span: 7 }">
-                  <img
-                    class="payment-image"
-                    src="@/assets/images/bank/kbank.png"
-                    alt=""
-                  />
-                </a-col>
-              </a-row>
-            </a-col>
-          </a-row>
-        </a-col>
-      </a-row>
-      <a-row class="main-warpper">
-        <a-col :lg="12" :sm="10" class="letter-warpper">
-          <a-col :lg="{ span: 8 }" class="follow-warpper-mobile">
-            <h3>Follow Us</h3>
-            <a-row class="main-warpper">
-              <font-awesome-icon
-                class="social-item"
-                icon="fa-brands fa-sm fa-facebook-f"
-              />
-              <font-awesome-icon
-                class="social-item"
-                icon="fa-brands fa-sm fa-twitter"
-              />
-              <font-awesome-icon
-                class="social-item"
-                icon="fa-brands fa-sm fa-instagram"
-              />
-              <font-awesome-icon
-                class="social-item"
-                icon="fa-brands fa-sm fa-facebook-messenger"
-              />
-            </a-row>
           </a-col>
-        </a-col>
-        <a-col :lg="12" :sm="14" class="letter-warpper">
-          <h3>Newsletter</h3>
-          <div>Sign up to receive information about new products</div>
+          <a-col :lg="12" :sm="14" class="letter-warpper">
+            <h3>Newsletter</h3>
+            <div>Sign up to receive information about new products</div>
 
-          <a-input-search
-            placeholder="Your email address"
-            size="large"
-            @search="onSearch"
-          >
-            <a-button slot="enterButton"> SUBSCRIBE </a-button>
-          </a-input-search>
-        </a-col>
-      </a-row>
+            <a-input-search
+              placeholder="Your email address"
+              size="large"
+              @search="onSearch"
+            >
+              <a-button slot="enterButton"> SUBSCRIBE </a-button>
+            </a-input-search>
+          </a-col>
+        </a-row>
+      </div>
     </a-layout-footer>
     <hr />
-    <a-row class="copyright" type="flex" :justify="checkSize()">
+    <a-row class="copyright container" type="flex" :justify="checkSize()">
       <div>Copyright © 2021 Shop name, Inc. All rights reserved</div>
       <a-row class="main-warpprt termAndPrivacy">
         <a href="">Terms & Condition</a>
@@ -208,6 +230,9 @@ export default {
 }
 .footer {
   background: white;
+  .container {
+    margin: 0 auto;
+  }
 }
 ::v-deep .ant-layout-footer {
   background: white;
