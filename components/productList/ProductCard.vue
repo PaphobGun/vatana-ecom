@@ -1,7 +1,9 @@
 <template>
   <div class="product-card">
     <div class="top">
-      <img class="product-image" :src="selectedColor.url" alt="" />
+      <nuxt-link :to="`/product/${item.id}`">
+        <img class="product-image" :src="selectedColor.url" alt="" />
+      </nuxt-link>
       <div class="colors">
         <div
           class="color-item"
