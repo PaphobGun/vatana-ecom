@@ -22,6 +22,7 @@
     "express": "4.17.2",
     "less": "4.1.2",
     "less-loader": "7.3.0",
+    "net": "^1.0.2",
     "nuxt": "2.15.8",
     "vue": "2.6.14",
     "vue-server-renderer": "2.6.14",

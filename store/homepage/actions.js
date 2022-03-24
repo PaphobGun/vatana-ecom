@@ -3,7 +3,7 @@ import HttpClient from "../../utils/httpClient";
 export default {
   async getHomepage({ commit }, data) {
     const homepage = await HttpClient.call({
-      url: "/homepage",
+      url: "/banner",
       method: "GET",
       data,
     });

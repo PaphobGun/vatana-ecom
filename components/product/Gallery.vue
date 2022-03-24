@@ -1,10 +1,15 @@
 <template>
   <div class="pagination-product">
     <a-row>
-      <a-col v-if="!isMobile && !isTablet" class="group-list" :lg="{ span: 4 }" :md="{ span: 4 }">
+      <a-col
+        v-if="!isMobile && !isTablet"
+        class="group-list"
+        :lg="{ span: 4 }"
+        :md="{ span: 4 }"
+      >
         <div
           class=""
-          v-for="(img, idx) in item.images"
+          v-for="(img, idx) in item.img"
           :key="idx"
           @click="() => selectImg(idx)"
         >
@@ -12,12 +17,12 @@
         </div>
       </a-col>
       <a-col :lg="{ span: 19 }" :md="{ span: 19 }" :offset="1">
-        <img class="product-image" :src="image.url" alt="" />
+        <img v-if="image.url" class="product-image" :src="image.url" alt="" />
       </a-col>
       <div v-if="isMobile || isTablet" :sm="{ span: 24 }" class="group-warpper">
         <a-row
           class=""
-          v-for="(img, idx) in item.images"
+          v-for="(img, idx) in item.img"
           :key="idx"
           @click="() => selectImg(idx)"
         >
@@ -46,22 +51,18 @@ export default {
       },
     };
   },
-  created() {
-    // this.image = this.product.images[0];
-  },
   methods: {
     selectImg(index) {
-      this.image = this.item.images[index];
+      this.image = this.item.img[index];
     },
   },
   computed: {
-    ...mapGetters("product", ["product"]),
     ...mapGetters("common", ["isMobile", "dimension", "isTablet"]),
   },
   watch: {
     item: {
       handler: async function () {
-        this.image = this.item.images[0];
+        this.image = this.item.img[0];
       },
       deep: true,
     },
@@ -77,9 +78,9 @@ export default {
 
 .group-list {
   height: 500px;
-  overflow: scroll;
 
   .group-item {
+    cursor: pointer;
     height: auto;
     width: 100%;
     padding: 5px;
@@ -92,7 +93,6 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
-
   .group-warpper {
     display: flex;
     overflow: scroll;

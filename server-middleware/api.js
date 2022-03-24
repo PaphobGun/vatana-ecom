@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.use(router);
 
-router.get("/homepage", (req, res) => {
+router.get("/banner", (req, res) => {
   return res.json({
     data: {
       banner: {
@@ -138,7 +138,7 @@ router.get("/homepage", (req, res) => {
   });
 });
 
-router.get("/collections", (req, res) => {
+router.get("/collection", (req, res) => {
   return res.json({
     data: [
       {
@@ -180,7 +180,7 @@ router.get("/category", (req, res) => {
   });
 });
 
-router.post("/products", (req, res) => {
+router.get("/product", (req, res) => {
   return res.json({
     data: [
       {
@@ -284,7 +284,7 @@ router.post("/products", (req, res) => {
   });
 });
 
-router.post("/product", (req, res) => {
+router.get("/product/:id", (req, res) => {
   return res.json({
     data: {
       id: 1,
@@ -369,12 +369,10 @@ router.post("/product", (req, res) => {
         },
       ],
     },
-
-    total_items: 64,
   });
 });
 
-router.post("/relatedProducts", (req, res) => {
+router.get("/product/relates", (req, res) => {
   return res.json({
     data: [
       {

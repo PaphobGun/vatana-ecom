@@ -3,7 +3,7 @@ import HttpClient from "../../utils/httpClient";
 export default {
   async getCollections({ commit }) {
     const collections = await HttpClient.call({
-      url: "/collections",
+      url: "/collection",
       method: "GET",
     });
 
@@ -17,11 +17,20 @@ export default {
 
     commit("SET_CATEGORIES", categories.data);
   },
-  async getProducts({ commit }, data) {
+  async getProducts({ commit }, params) {
     const products = await HttpClient.call({
-      url: "/products",
-      method: "POST",
-      data,
+      url: "/product",
+      method: "GET",
+      params: {
+        page: params.page,
+        sort: params.sort,
+        category: params.criteria.categories.map((c) => c.uuid),
+        collection: params.criteria.collections.map((c) => c.uuid),
+        colors: params.criteria.colors.map((c) => c.uuid),
+        minPrice: params.criteria.minPrice,
+        maxPrice: params.criteria.maxPrice,
+        size: params.criteria.size.map((s) => s.uuid),
+      },
     });
 
     commit("SET_PRODUCTS", products.data);

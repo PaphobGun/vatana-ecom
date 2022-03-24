@@ -32,19 +32,13 @@
     <div class="flex-wrap">
       <a-row class="flex-wrap center" style="">
         <a-row class="flex-wrap">
-          <div class="input-bt input-bt-add" style="" v-on:click="add()">
-            +
-          </div>
+          <div class="input-bt input-bt-add" style="" v-on:click="add()">+</div>
           <div class="input-bt input-bt-qty" type="text">
             <div class="count-text-cart">
               {{ qty }}
             </div>
           </div>
-          <div
-            class="input-bt input-bt-remove"
-            style=""
-            v-on:click="remove()"
-          >
+          <div class="input-bt input-bt-remove" style="" v-on:click="remove()">
             -
           </div>
           <button class="button-add">ADD TO CART</button>
@@ -170,7 +164,6 @@ export default {
     getTag() {
       if (this.item.tags) return this.item.tags.toString();
     },
-    ...mapActions("product", ["getProduct"]),
   },
   computed: {
     ...mapGetters("product", ["product"]),

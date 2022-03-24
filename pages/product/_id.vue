@@ -1,15 +1,23 @@
 <template>
   <div class="main-warpper">
-    <a-row v-if="product">
-      <a-col :lg="{ span: 12 }" :md="{ span: 12 }">
-        <Gallery :item="images" />
-        <RelatedProduct v-if="!isMobile && !isTablet" :products="relatedProducts" />
-      </a-col>
-      <a-col :lg="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }">
-        <Description :item="product" :selectColor="selectColor" />
-      </a-col>
-      <RelatedProduct v-if="isMobile || isTablet" :products="relatedProducts" />
-    </a-row>
+    <div class="container">
+      <a-row v-if="product">
+        <a-col :lg="{ span: 12 }" :md="{ span: 12 }">
+          <Gallery :item="images" />
+          <RelatedProduct
+            v-if="!isMobile && !isTablet"
+            :products="relatedProducts"
+          />
+        </a-col>
+        <a-col :lg="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }">
+          <Description :item="product" :selectColor="selectColor" />
+        </a-col>
+        <RelatedProduct
+          v-if="isMobile || isTablet"
+          :products="relatedProducts"
+        />
+      </a-row>
+    </div>
   </div>
 </template>
 
@@ -36,19 +44,16 @@ export default {
   },
   async created() {
     await Promise.all([
-      this.getProduct({
-        id: this.$route.params,
-      }),
+      this.getProduct(this.$route.params.id),
       this.getRelatedProducts({
         id: this.$route.params,
       }),
-    ]).then((item) => {
-      this.images = item[0].img[0];
-    });
+    ]);
+    this.images = this.product;
   },
   methods: {
     selectColor(index) {
-      this.images = this.product.img[index];
+      // this.images = this.product.img[index];
     },
     ...mapActions("product", ["getProduct", "getRelatedProducts"]),
   },
@@ -56,19 +61,16 @@ export default {
     ...mapGetters("product", ["product", "relatedProducts"]),
     ...mapGetters("common", ["isMobile", "isTablet"]),
   },
-  watch: {
-    getProduct: {
-      handler: async function () {
-        this.image = this.item.images[0];
-      },
-      deep: true,
-    },
-  },
 };
 </script>
 
 <style lang="less" scoped>
 .main-warpper {
   margin-top: 25px;
+
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 </style>
