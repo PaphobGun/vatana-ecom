@@ -9,7 +9,7 @@
       >
         <div
           class=""
-          v-for="(img, idx) in item.img"
+          v-for="(img, idx) in item.images"
           :key="idx"
           @click="() => selectImg(idx)"
         >
@@ -22,7 +22,7 @@
       <div v-if="isMobile || isTablet" :sm="{ span: 24 }" class="group-warpper">
         <a-row
           class=""
-          v-for="(img, idx) in item.img"
+          v-for="(img, idx) in item.images"
           :key="idx"
           @click="() => selectImg(idx)"
         >
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     selectImg(index) {
-      this.image = this.item.img[index];
+      this.image = this.item.images[index];
     },
   },
   computed: {
@@ -62,7 +62,7 @@ export default {
   watch: {
     item: {
       handler: async function () {
-        this.image = this.item.img[0];
+        this.image = this.item.images[0];
       },
       deep: true,
     },

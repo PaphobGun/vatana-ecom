@@ -1,5 +1,5 @@
 <template>
-  <div class="product-list">
+  <div class="product-list container mx-auto">
     <a-row>
       <a-col :lg="{ span: 6 }" :xs="{ span: 0 }"
         ><Filters

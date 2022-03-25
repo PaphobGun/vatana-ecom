@@ -7,7 +7,7 @@
       <div class="colors">
         <div
           class="color-item"
-          v-for="(color, cidx) in item.img"
+          v-for="(color, cidx) in item.images"
           :key="cidx"
           :style="{ 'background-color': color.color }"
           @click="() => selectColor(color)"
@@ -19,7 +19,7 @@
         {{ item.name }}
       </div>
       <div class="size-wrapper">
-        <div class="size-item" v-for="(size, idx) in item.size" :key="idx">
+        <div class="size-item" v-for="(size, idx) in item.sizes" :key="idx">
           {{ size }}
         </div>
       </div>
@@ -42,7 +42,8 @@ export default {
     };
   },
   created() {
-    this.selectedColor = this.item.img[0];
+    console.log(this.item);
+    this.selectedColor = this.item.images[0];
   },
   methods: {
     selectColor(color) {
@@ -58,11 +59,12 @@ export default {
   border: 1px solid #f1f1f1;
   margin-right: 16px;
   margin-bottom: 16px;
+  width: 190px;
 
   .top {
     position: relative;
     .product-image {
-      width: 190px;
+      width: 100%;
     }
 
     .colors {
@@ -101,10 +103,8 @@ export default {
         border: 1px solid #000;
         border-radius: 2px;
         margin-right: 5px;
-        width: 16px;
-        height: 16px;
+        padding: 3px;
         text-align: center;
-
         font-size: 10px;
       }
     }

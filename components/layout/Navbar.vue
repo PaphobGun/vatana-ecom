@@ -16,7 +16,9 @@
       </section>
 
       <div class="center-menu">
-        <nuxt-link to="/" class="logo-title">LOGO</nuxt-link>
+        <nuxt-link to="/">
+          <img src="~assets/images/vatana-no-bg.png" alt="" class="logo-icon" />
+        </nuxt-link>
       </div>
       <div class="right-menu">
         <a-icon class="menu-icon" type="search" />
@@ -24,17 +26,72 @@
         <a-icon class="menu-icon" type="shopping" />
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
 
-        <div v-if="!isMobile && !isTablet" class="menu-item">SIGN IN</div>
+        <div
+          v-if="!isMobile && !isTablet"
+          class="menu-item"
+          @click="showLoginModal"
+        >
+          SIGN IN
+        </div>
       </div>
     </div>
+    <LoginModal
+      :isShow="isShowLoginModal"
+      :onClose="closeLoginModal"
+      @openSignupModal="showRegisterModal"
+      @openRequestResetPasswordModal="showRequestResetPasswordModal"
+    />
+    <RegisterModal
+      :isShow="isShowRegisterModal"
+      :onClose="closeRegisterModal"
+      @openSigninModal="showLoginModal"
+    />
+    <RequestResetPasswordModal
+      :isShow="isShowRequestResetPasswordModal"
+      :onClose="closeRequestResetPasswordModal"
+    />
   </a-layout-header>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
+import LoginModal from "../auth/LoginModal.vue";
+import RegisterModal from "../auth/RegisterModal.vue";
+import RequestResetPasswordModal from "../auth/RequestResetPasswordModal.vue";
 
 export default {
-  methods: {},
+  components: {
+    LoginModal,
+    RegisterModal,
+    RequestResetPasswordModal,
+  },
+  data() {
+    return {
+      isShowLoginModal: false,
+      isShowRegisterModal: false,
+      isShowRequestResetPasswordModal: false,
+    };
+  },
+  methods: {
+    showLoginModal() {
+      this.isShowLoginModal = true;
+    },
+    closeLoginModal() {
+      this.isShowLoginModal = false;
+    },
+    showRegisterModal() {
+      this.isShowRegisterModal = true;
+    },
+    closeRegisterModal() {
+      this.isShowRegisterModal = false;
+    },
+    showRequestResetPasswordModal() {
+      this.isShowRequestResetPasswordModal = true;
+    },
+    closeRequestResetPasswordModal() {
+      this.isShowRequestResetPasswordModal = false;
+    },
+  },
   computed: {
     ...mapGetters("common", ["isMobile", "isTablet"]),
   },
@@ -221,9 +278,8 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
 
-    .logo-title {
-      font-size: 32px;
-      color: #000;
+    .logo-icon {
+      width: 150px;
     }
   }
 
@@ -243,6 +299,7 @@ body {
     }
 
     .menu-item {
+      cursor: pointer;
       font-size: 16px;
       color: #000;
     }

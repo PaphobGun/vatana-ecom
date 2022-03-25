@@ -1,10 +1,9 @@
 <template>
   <div class="main-warpper">
     <div class="related">Related Products</div>
-    <div  direction="vertical" class="pagination-product">
+    <div direction="vertical" class="pagination-product">
       <ProductCard
-  
-        v-for="(item, idx) in products"
+        v-for="(item, idx) in customProducts"
         :key="idx"
         :item="item"
       />
@@ -13,7 +12,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import ProductCard from "../productList/ProductCard.vue";
 
 export default {
@@ -29,7 +27,14 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    customProducts() {
+      return this.products.map((p) => ({
+        ...p,
+        images: p.img,
+      }));
+    },
+  },
 };
 </script>
 

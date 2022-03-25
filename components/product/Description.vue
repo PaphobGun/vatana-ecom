@@ -11,7 +11,7 @@
     <div class="size">
       <div class="size-name">Size</div>
       <div class="size-wrapper">
-        <div class="size-item" v-for="(size, idx) in item.size" :key="idx">
+        <div class="size-item" v-for="(size, idx) in item.sizes" :key="idx">
           {{ size }}
         </div>
       </div>
@@ -21,7 +21,7 @@
       <div class="colors">
         <div
           class="color-item"
-          v-for="(color, cidx) in item.img"
+          v-for="(color, cidx) in item.images"
           :key="cidx"
           :style="{ 'background-color': color.color }"
           @click="() => selectColor(cidx)"
