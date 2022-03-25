@@ -91,4 +91,17 @@ export default {
 
     return error;
   },
+  async resetPassword(_, { oobCode, password }) {
+    let error;
+
+    try {
+      await auth.verifyPasswordResetCode(oobCode);
+      await auth.confirmPasswordReset(oobCode, password);
+    } catch (err) {
+      console.log(err);
+      error = err;
+    }
+
+    return error;
+  },
 };

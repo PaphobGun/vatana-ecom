@@ -281,8 +281,9 @@ export default {
     border: 1px solid #000;
     border-radius: 2px;
     margin-right: 5px;
-    width: 32px;
-    height: 32px;
+    // width: 32px;
+    // height: 32px;
+    padding: 3px;
     text-align: center;
 
     font-size: 16px;

@@ -94,8 +94,6 @@ export default {
         if (!err) {
           const resetPasswordError = await this.requestResetPassword(email);
 
-          console.log(resetPasswordError);
-
           if (!resetPasswordError) {
             this.$notification.success({
               message: "Password reset email send!",
