@@ -27,12 +27,13 @@
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
 
         <div
-          v-if="!isMobile && !isTablet"
+          v-if="!isMobile && !isTablet && !isLoggedIn"
           class="menu-item"
           @click="showLoginModal"
         >
           SIGN IN
         </div>
+        <div @click="signOut" v-else class="menu-item">SIGN OUT</div>
       </div>
     </div>
     <LoginModal
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import LoginModal from "../auth/LoginModal.vue";
 import RegisterModal from "../auth/RegisterModal.vue";
 import RequestResetPasswordModal from "../auth/RequestResetPasswordModal.vue";
@@ -91,9 +92,11 @@ export default {
     closeRequestResetPasswordModal() {
       this.isShowRequestResetPasswordModal = false;
     },
+    ...mapActions("auth", ["signOut"]),
   },
   computed: {
     ...mapGetters("common", ["isMobile", "isTablet"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
   },
 };
 </script>

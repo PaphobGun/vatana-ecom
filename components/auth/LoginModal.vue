@@ -24,6 +24,7 @@
                     message: 'The input is not valid E-mail!',
                   },
                 ],
+                initialValue: emailInput,
               },
             ]"
             @input="onEmailChange"
@@ -51,17 +52,7 @@
         </a-form-item>
         <div class="remember-row">
           <div class="remember">
-            <a-checkbox
-              v-decorator="[
-                'remember',
-                {
-                  valuePropName: 'checked',
-                  initialValue: false,
-                },
-              ]"
-            >
-              Remember me
-            </a-checkbox>
+            <a-checkbox v-model="isRemember"> Remember me </a-checkbox>
           </div>
           <div @click="onClickForgotPassword" class="forgot">
             Forgot Password?
@@ -99,7 +90,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   props: {
@@ -119,7 +110,11 @@ export default {
     return {
       emailError: "",
       passwordError: "",
+      isRemember: false,
     };
+  },
+  computed: {
+    ...mapGetters("auth", ["emailInput"]),
   },
   methods: {
     async handleSubmit(e) {
@@ -129,6 +124,7 @@ export default {
           const loginError = await this.loginWithEmailAndPassword({
             email,
             password,
+            isRemember: this.isRemember,
           });
 
           if (!loginError) {

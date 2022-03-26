@@ -2,7 +2,10 @@ import HttpClient from "../../utils/httpClient";
 import { auth, GoogleProvider } from "../../services/firebase";
 
 export default {
-  async loginWithEmailAndPassword({ commit }, { email, password }) {
+  async loginWithEmailAndPassword(
+    { commit, dispatch },
+    { email, password, isRemember }
+  ) {
     let error;
     try {
       const firebaseRes = await auth.signInWithEmailAndPassword(
@@ -10,16 +13,17 @@ export default {
         password
       );
       const idToken = await auth.currentUser.getIdToken();
-      await HttpClient.call({
-        url: "/auth",
-        method: "POST",
-        data: {
-          uid: firebaseRes.user.uid,
-          email,
-          channel: "email",
-          access_token: idToken,
-        },
+      await dispatch("getAccessToken", {
+        uid: firebaseRes.user.uid,
+        email,
+        channel: "email",
+        access_token: idToken,
       });
+      if (isRemember) {
+        commit("SET_EMAIL_INPUT", email);
+      } else {
+        commit("SET_EMAIL_INPUT", "");
+      }
     } catch (err) {
       console.log(err);
       error = err;
@@ -27,7 +31,7 @@ export default {
 
     return error;
   },
-  async registerWithEmailAndPassword({ commit }, { name, email, password }) {
+  async registerWithEmailAndPassword({ dispatch }, { name, email, password }) {
     let error;
 
     try {
@@ -36,16 +40,12 @@ export default {
         password
       );
       const idToken = await auth.currentUser.getIdToken();
-      await HttpClient.call({
-        url: "/auth",
-        method: "POST",
-        data: {
-          uid: firebaseRes.user.uid,
-          email,
-          fullname: name,
-          channel: "email",
-          access_token: idToken,
-        },
+      await dispatch("getAccessToken", {
+        uid: firebaseRes.user.uid,
+        fullname: name,
+        email,
+        channel: "email",
+        access_token: idToken,
       });
     } catch (err) {
       console.log(err);
@@ -54,23 +54,19 @@ export default {
 
     return error;
   },
-  async signInWithGoogle({ commit }) {
+  async signInWithGoogle({ dispatch }) {
     let error;
 
     try {
       await auth.signOut();
       const firebaseRes = await auth.signInWithPopup(GoogleProvider);
       const idToken = await auth.currentUser.getIdToken();
-      await HttpClient.call({
-        url: "/auth",
-        method: "POST",
-        data: {
-          uid: firebaseRes.user.uid,
-          email: firebaseRes.user.email,
-          fullname: firebaseRes.user.displayName,
-          channel: "email",
-          access_token: idToken,
-        },
+      await dispatch("getAccessToken", {
+        uid: firebaseRes.user.uid,
+        email: firebaseRes.user.email,
+        fullname: firebaseRes.user.displayName,
+        channel: "google",
+        access_token: idToken,
       });
     } catch (err) {
       console.log(err);
@@ -103,5 +99,38 @@ export default {
     }
 
     return error;
+  },
+  async getAccessToken(
+    { commit },
+    { uid, email, fullname, channel, access_token }
+  ) {
+    let error;
+
+    try {
+      const res = await HttpClient.call({
+        url: "/auth",
+        method: "POST",
+        data: {
+          uid,
+          email,
+          fullname,
+          channel,
+          access_token,
+        },
+      });
+
+      commit("SET_ACCESS_TOKEN", res.token);
+      commit("SET_REFRESH_TOKEN", res.refresh_token);
+    } catch (err) {
+      console.log(err);
+      error = err;
+    }
+
+    return error;
+  },
+  async signOut({ commit }) {
+    await auth.signOut();
+    commit("SET_ACCESS_TOKEN", null);
+    commit("SET_REFRESH_TOKEN", null);
   },
 };
