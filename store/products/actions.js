@@ -24,6 +24,7 @@ export default {
       params: {
         page: params.page,
         sort: params.sort,
+        limit: params.limit || 12,
         category: params.criteria?.categories?.map((c) => c.id),
         collection: params.criteria?.collections?.map((c) => c.id),
         colors: params.criteria?.colors?.map((c) => c.uuid),
