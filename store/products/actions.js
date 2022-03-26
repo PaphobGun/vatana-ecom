@@ -24,12 +24,12 @@ export default {
       params: {
         page: params.page,
         sort: params.sort,
-        category: params.criteria.categories.map((c) => c.id),
-        collection: params.criteria.collections.map((c) => c.id),
-        colors: params.criteria.colors.map((c) => c.uuid),
-        minPrice: params.criteria.minPrice,
-        maxPrice: params.criteria.maxPrice,
-        size: params.criteria.size.map((s) => s.uuid),
+        category: params.criteria?.categories?.map((c) => c.id),
+        collection: params.criteria?.collections?.map((c) => c.id),
+        colors: params.criteria?.colors?.map((c) => c.uuid),
+        minPrice: params.criteria?.minPrice,
+        maxPrice: params.criteria?.maxPrice,
+        size: params.criteria?.size?.map((s) => s.uuid),
       },
     });
 

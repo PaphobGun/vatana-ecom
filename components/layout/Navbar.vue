@@ -10,11 +10,12 @@
           <li class="menu-dis">
             <nuxt-link to="/products"> PRODUCT </nuxt-link>
           </li>
-          <li class="menu-dis">PROMOTION</li>
+          <li class="menu-dis">
+            <nuxt-link to="/promotion"> PROMOTION </nuxt-link>
+          </li>
           <li class="menu-dis">LOOKBOOK</li>
         </ul>
       </section>
-
       <div class="center-menu">
         <nuxt-link to="/">
           <img src="~assets/images/vatana-no-bg.png" alt="" class="logo-icon" />
@@ -25,15 +26,13 @@
         <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
         <a-icon class="menu-icon" type="shopping" />
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
-
-        <div
-          v-if="!isMobile && !isTablet && !isLoggedIn"
-          class="menu-item"
-          @click="showLoginModal"
-        >
-          SIGN IN
-        </div>
-        <div @click="signOut" v-else class="menu-item">SIGN OUT</div>
+        <a-dropdown class="menu-item">
+          <a-icon type="user" />
+          <a-menu slot="overlay" @click="onClickAuthMenu">
+            <a-menu-item key="in" v-if="!isLoggedIn"> SIGN IN </a-menu-item>
+            <a-menu-item key="out" v-else> SIGN OUT </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </div>
     </div>
     <LoginModal
@@ -74,6 +73,13 @@ export default {
     };
   },
   methods: {
+    onClickAuthMenu(menu) {
+      if (menu.key === "in") {
+        this.showLoginModal();
+      } else {
+        this.signOut();
+      }
+    },
     showLoginModal() {
       this.isShowLoginModal = true;
     },

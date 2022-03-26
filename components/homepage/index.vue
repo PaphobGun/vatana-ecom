@@ -21,10 +21,17 @@
           class="homepage__category__item"
           v-for="c in category.items"
           :key="c.uuid"
-          :span="4"
+          :xs="12"
+          :lg="4"
         >
           <img :src="c.img" alt="img" class="homepage__category__item__pic" />
         </a-col>
+        <!-- <div class="homepage__category__carousel">
+          <Carousel
+            :slidesToShow="4"
+            :images="category.items.map((c) => c.img)"
+          />
+        </div> -->
       </a-row>
       <div class="homepage__featured__top">
         <h1 class="title">Featured Products</h1>
@@ -112,8 +119,12 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Carousel from "../common/Carousel.vue";
 
 export default {
+  components: {
+    Carousel,
+  },
   created() {
     this.getHomepage();
   },
@@ -141,6 +152,7 @@ export default {
     font-size: 32px;
     font-weight: 300;
     line-height: 1;
+    margin-bottom: 0;
   }
 
   .link {
@@ -248,6 +260,12 @@ export default {
         border-radius: 4px;
         width: 100%;
       }
+    }
+  }
+
+  @media (max-width: 450px) {
+    .title {
+      font-size: 24px;
     }
   }
 }
