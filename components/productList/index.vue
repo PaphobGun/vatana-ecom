@@ -9,17 +9,33 @@
           :onColorsChange="onColorsChange"
           :onSizeChange="onSizeChange"
           :onDelFilter="onDelFilter"
+          :onPriceChange="onPriceChange"
+          @clearFilter="clearFilter"
       /></a-col>
-      <a-col :lg="{ span: 17, offset: 1 }" :xs="{ span: 24 }">
+      <a-col :lg="{ span: 17, offset: 1 }" :xs="{ span: 24 }" class="content">
         <div class="sort-wrapper">
           <div class="count">{{ totalItems }} items</div>
-          <div class="sort">
-            <div class="text">Sorting</div>
-            <img src="~assets/images/sorting-order.png" alt="" class="icon" />
-          </div>
+          <a-dropdown class="sort">
+            <div>
+              <div class="text">Sorting</div>
+              <img src="~assets/images/sorting-order.png" alt="" class="icon" />
+            </div>
+            <a-menu slot="overlay" @click="onClickSort">
+              <a-menu-item key="asc"> Price Low-High </a-menu-item>
+              <a-menu-item key="desc"> Price High-Low </a-menu-item>
+            </a-menu>
+          </a-dropdown>
         </div>
         <div class="product-list-wrapper">
           <PaginationProduct />
+        </div>
+        <div class="pagination-wrapper">
+          <Pagination
+            :currentPage="page"
+            :pageSize="12"
+            :total="totalItems"
+            @onPageChange="onPageChange"
+          />
         </div>
       </a-col>
     </a-row>
@@ -31,11 +47,13 @@ import { mapActions, mapGetters } from "vuex";
 
 import Filters from "./Filters.vue";
 import PaginationProduct from "./PaginationProduct.vue";
+import Pagination from "../common/Pagination.vue";
 
 export default {
   components: {
     Filters,
     PaginationProduct,
+    Pagination,
   },
   data() {
     return {
@@ -81,6 +99,32 @@ export default {
     ...mapGetters("products", ["totalItems"]),
   },
   methods: {
+    clearFilter() {
+      this.criteria = {
+        minPrice: 100,
+        maxPrice: 1000,
+        collections: [],
+        categories: [],
+        colors: [],
+        size: [],
+      };
+    },
+    onClickSort(_sort) {
+      this.sort = _sort.key;
+      this.getProducts({
+        criteria: this.criteria,
+        page: this.page,
+        sort: this.sort,
+      });
+    },
+    async onPageChange(_page) {
+      this.page = _page;
+      await this.getProducts({
+        criteria: this.criteria,
+        page: this.page,
+        sort: this.sort,
+      });
+    },
     onCollectionsChange(item) {
       const target = this.criteria.collections.find(
         (_item) => _item.uuid === item.uuid
@@ -144,6 +188,11 @@ export default {
         (_item) => _item.uuid !== item.uuid
       );
     },
+    onPriceChange(value) {
+      const [min, max] = value;
+      this.criteria.minPrice = min;
+      this.criteria.maxPrice = max;
+    },
     ...mapActions("products", [
       "getCollections",
       "getCategories",
@@ -202,8 +251,14 @@ export default {
     }
   }
 
-  .product-list-wrapper {
-    margin-top: 20px;
+  .content {
+    .product-list-wrapper {
+      margin-top: 20px;
+    }
+
+    .pagination-wrapper {
+      margin-top: 20px;
+    }
   }
 }
 </style>

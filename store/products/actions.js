@@ -24,8 +24,8 @@ export default {
       params: {
         page: params.page,
         sort: params.sort,
-        category: params.criteria.categories.map((c) => c.uuid),
-        collection: params.criteria.collections.map((c) => c.uuid),
+        category: params.criteria.categories.map((c) => c.id),
+        collection: params.criteria.collections.map((c) => c.id),
         colors: params.criteria.colors.map((c) => c.uuid),
         minPrice: params.criteria.minPrice,
         maxPrice: params.criteria.maxPrice,
@@ -34,6 +34,6 @@ export default {
     });
 
     commit("SET_PRODUCTS", products.data);
-    commit("SET_PRODUCTS_COUNT", products.total_items);
+    commit("SET_PRODUCTS_COUNT", products.total);
   },
 };

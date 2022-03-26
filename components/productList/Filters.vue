@@ -3,7 +3,7 @@
     <div class="filter-title">Products</div>
     <div class="filter-top">
       <div class="filter-text">Filters</div>
-      <div class="clear-text">Clear All</div>
+      <div @click="clearFilter" class="clear-text">Clear All</div>
     </div>
     <div class="filter-labels">
       <div
@@ -18,7 +18,14 @@
     </div>
     <div class="price">
       <div class="text">Price</div>
-      <a-slider range :defaultValue="[100, 1000]" :min="0" :max="1200" />
+      <a-slider
+        cancelable
+        @afterChange="priceChanged"
+        v-model="prices"
+        range
+        :min="0"
+        :max="1200"
+      />
     </div>
     <div class="checkbox-filters">
       <div class="text">Collections</div>
@@ -133,18 +140,30 @@ export default {
       type: Function,
       default: () => {},
     },
+    onPriceChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
       filterItems: ["Men", "Black", "Red", "Summer"],
       colors: ["Black", "Green", "Orange", "Blue", "White"],
       size: ["S", "M", "L", "XL"],
+      prices: [100, 1000],
     };
   },
   computed: {
     ...mapGetters("products", ["collections", "categories"]),
   },
   methods: {
+    clearFilter() {
+      this.$emit("clearFilter");
+      this.prices = [100, 1000];
+    },
+    priceChanged(value) {
+      this.onPriceChange(value);
+    },
     collectionsChanged(item) {
       this.onCollectionsChange(item);
     },
@@ -219,6 +238,17 @@ export default {
   }
 
   .price {
+    ::v-deep .ant-slider-track {
+      background-color: #000;
+    }
+
+    ::v-deep .ant-slider-handle {
+      border-color: #000;
+    }
+    ::v-deep .ant-slider-handle.ant-tooltip-open {
+      border-color: #000;
+    }
+
     border-bottom: 1px solid #e6e6e6;
     padding: 20px 0;
 
