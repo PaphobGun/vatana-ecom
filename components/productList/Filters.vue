@@ -144,11 +144,7 @@ export default {
     };
   },
   async created() {
-    await Promise.all([
-      this.getPriceFilter(),
-      this.getSizes(),
-      this.getColors(),
-    ]);
+    await Promise.all([this.getSizes(), this.getColors()]);
     const [min, max] = this.priceFilter;
     this.prices = [min, max];
   },
@@ -185,7 +181,7 @@ export default {
     delFilter(item) {
       this.onDelFilter(item);
     },
-    ...mapActions("products", ["getPriceFilter", "getSizes", "getColors"]),
+    ...mapActions("products", ["getSizes", "getColors"]),
   },
 };
 </script>

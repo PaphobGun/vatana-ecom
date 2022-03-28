@@ -70,14 +70,21 @@ export default {
     };
   },
   async created() {
-    await Promise.all(
-      [this.getCollections(), this.getCategories()],
-      this.getProducts({
-        criteria: this.criteria,
-        page: this.page,
-        sort: this.sort,
-      })
-    );
+    await Promise.all([
+      this.getPriceFilter(),
+      this.getCollections(),
+      this.getCategories(),
+    ]);
+
+    const [min, max] = this.priceFilter;
+    this.criteria.minPrice = min;
+    this.criteria.maxPrice = max;
+
+    this.getProducts({
+      criteria: this.criteria,
+      page: this.page,
+      sort: this.sort,
+    });
   },
   computed: {
     filteredItems() {
@@ -96,7 +103,7 @@ export default {
 
       return [...collectionsMap, ...categoriesMap, ...colorsMap, ...sizeMap];
     },
-    ...mapGetters("products", ["totalItems"]),
+    ...mapGetters("products", ["totalItems", "priceFilter"]),
   },
   methods: {
     clearFilter() {
@@ -189,6 +196,7 @@ export default {
       "getCollections",
       "getCategories",
       "getProducts",
+      "getPriceFilter",
     ]),
   },
   watch: {
