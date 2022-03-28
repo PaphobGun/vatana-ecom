@@ -1,7 +1,7 @@
 <template>
   <div class="pagination">
     <a-pagination
-      :default-current="currentPage"
+      :current="currentPage"
       :default-page-size="pageSize"
       :total="total"
       @change="onPageChange"

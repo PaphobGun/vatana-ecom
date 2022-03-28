@@ -100,6 +100,7 @@ export default {
   },
   methods: {
     clearFilter() {
+      this.page = 1;
       this.criteria = {
         minPrice: 100,
         maxPrice: 1000,
@@ -111,6 +112,7 @@ export default {
     },
     onClickSort(_sort) {
       this.sort = _sort.key;
+      this.page = 1;
       this.getProducts({
         criteria: this.criteria,
         page: this.page,
@@ -127,11 +129,11 @@ export default {
     },
     onCollectionsChange(item) {
       const target = this.criteria.collections.find(
-        (_item) => _item.uuid === item.uuid
+        (_item) => _item.id === item.id
       );
       if (target) {
         this.criteria.collections = this.criteria.collections.filter(
-          (__item) => __item.uuid !== item.uuid
+          (__item) => __item.id !== item.id
         );
       } else {
         this.criteria.collections = [...this.criteria.collections, item];
@@ -141,11 +143,11 @@ export default {
     },
     onCategoriesChange(item) {
       const target = this.criteria.categories.find(
-        (_item) => _item.uuid === item.uuid
+        (_item) => _item.id === item.id
       );
       if (target) {
         this.criteria.categories = this.criteria.categories.filter(
-          (__item) => __item.uuid !== item.uuid
+          (__item) => __item.id !== item.id
         );
       } else {
         this.criteria.categories = [...this.criteria.categories, item];
@@ -153,39 +155,29 @@ export default {
 
       console.log(this.criteria.categories);
     },
-    onColorsChange(item) {
-      const target = this.criteria.colors.find((_item) => _item.name === item);
+    onColorsChange(cid, name) {
+      const target = this.criteria.colors.find((c) => c.id === cid);
       if (target) {
-        this.criteria.colors = this.criteria.colors.filter(
-          (__item) => __item.name !== item
-        );
+        this.criteria.colors = this.criteria.colors.filter((c) => c.id !== cid);
       } else {
-        this.criteria.colors = [
-          ...this.criteria.colors,
-          { name: item, uuid: item },
-        ];
+        this.criteria.colors = [...this.criteria.colors, { id: cid, name }];
       }
 
       console.log(this.criteria.colors);
     },
-    onSizeChange(item) {
-      const target = this.criteria.size.find((_item) => _item.name === item);
+    onSizeChange(s) {
+      const target = this.criteria.size.find((_s) => _s.id === s.id);
       if (target) {
-        this.criteria.size = this.criteria.size.filter(
-          (__item) => __item.name !== item
-        );
+        this.criteria.size = this.criteria.size.filter((_s) => _s.id !== s.id);
       } else {
-        this.criteria.size = [
-          ...this.criteria.size,
-          { name: item, uuid: item },
-        ];
+        this.criteria.size = [...this.criteria.size, s];
       }
 
       console.log(this.criteria.size);
     },
     onDelFilter(item) {
       this.criteria[item.type] = this.criteria[item.type].filter(
-        (_item) => _item.uuid !== item.uuid
+        (_item) => _item.id !== item.id
       );
     },
     onPriceChange(value) {

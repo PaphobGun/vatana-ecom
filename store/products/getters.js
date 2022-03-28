@@ -8,7 +8,16 @@ export default {
   products(state) {
     return state.products;
   },
+  sizes(state) {
+    return state.sizes;
+  },
+  colors(state) {
+    return state.colors;
+  },
   totalItems(state) {
     return state.totalItems;
+  },
+  priceFilter(state) {
+    return state.priceFilter;
   },
 };

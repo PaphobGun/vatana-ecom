@@ -4,12 +4,11 @@
     <div direction="vertical" class="pagination-product">
       <a-row :gutter="[16, 16]">
         <a-col
-          v-for="(item, idx) in customProducts"
+          v-for="(item, idx) in products.slice(0, 3)"
           :key="idx"
           :xs="12"
           :sm="12"
           :md="8"
-          :lg="6"
         >
           <ProductCard :item="item" />
         </a-col>
@@ -33,14 +32,6 @@ export default {
   },
   data() {
     return {};
-  },
-  computed: {
-    customProducts() {
-      return this.products.map((p) => ({
-        ...p,
-        images: p.img,
-      }));
-    },
   },
 };
 </script>

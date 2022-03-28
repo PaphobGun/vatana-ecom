@@ -49,9 +49,13 @@
               >
                 <h3>Contact</h3>
                 <div class="group-warpper">
-                  <a href="#">example@company.com</a>
-                  <a href="#">+66 2123 4567</a>
-                  <a href="#">+66 2123 4567</a>
+                  <a
+                    href="mailto:vatanaclothing.official@gmail.com"
+                    target="_blank"
+                    >vatanaclothing.official@gmail.com</a
+                  >
+                  <a href="tel:+66289745004">028-974-5004-5</a>
+                  <a href="tel:+66615361666">061-536-1666</a>
                 </div>
               </a-col>
             </a-row>
@@ -61,22 +65,31 @@
               <a-col :lg="{ span: 8 }" class="follow-warpper-desktop">
                 <h3>Follow Us</h3>
                 <a-row class="main-warpper">
-                  <font-awesome-icon
-                    class="social-item"
-                    icon="fa-brands fa-sm fa-facebook-f"
-                  />
-                  <font-awesome-icon
-                    class="social-item"
-                    icon="fa-brands fa-sm fa-twitter"
-                  />
-                  <font-awesome-icon
-                    class="social-item"
-                    icon="fa-brands fa-sm fa-instagram"
-                  />
-                  <font-awesome-icon
-                    class="social-item"
-                    icon="fa-brands fa-sm fa-facebook-messenger"
-                  />
+                  <a
+                    href="https://web.facebook.com/vatana.official/?ref=page_internal"
+                    target="_blank"
+                  >
+                    <font-awesome-icon
+                      class="social-item"
+                      icon="fa-brands fa-sm fa-facebook-f"
+                    />
+                  </a>
+                  <a href=" https://lin.ee/OHxs7BA" target="_blank">
+                    <img
+                      src="~assets/images/line-brands.svg"
+                      alt="Line"
+                      class="social-line"
+                    />
+                  </a>
+                  <a
+                    href="https://instagram.com/vatana_official?utm_medium=copy_link"
+                    target="_blank"
+                  >
+                    <font-awesome-icon
+                      class="social-item"
+                      icon="fa-brands fa-sm fa-instagram"
+                    />
+                  </a>
                 </a-row>
               </a-col>
               <a-col :lg="{ span: 8 }">
@@ -252,12 +265,18 @@ export default {
   width: 15px;
   height: 15px;
   text-align: center;
+  color: unset;
 
   font-size: 10px;
   display: inherit;
   justify-content: center;
   align-items: center;
   padding: 5px;
+}
+
+.social-line {
+  width: 25px;
+  margin-right: 5px;
 }
 
 .letter-warpper {
@@ -271,6 +290,7 @@ export default {
   .group-warpper {
     flex-direction: column;
     display: flex;
+    font-size: 12px;
   }
 }
 

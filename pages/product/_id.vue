@@ -1,7 +1,7 @@
 <template>
   <div class="main-warpper">
     <div class="container">
-      <a-row v-if="product">
+      <a-row v-if="product" :gutter="[8, 8]">
         <a-col :lg="{ span: 12 }" :xs="24" :sm="{ span: 24 }">
           <Gallery :item="images" />
           <div class="related-top">
@@ -43,9 +43,7 @@ export default {
   async created() {
     await Promise.all([
       this.getProduct(this.$route.params.id),
-      this.getRelatedProducts({
-        id: this.$route.params,
-      }),
+      this.getRelatedProducts(this.$route.params.id),
     ]);
     this.images = this.product;
   },
