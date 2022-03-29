@@ -2,7 +2,7 @@
   <div class="pagination-product">
     <a-row :gutter="[16, 16]">
       <a-col
-        v-for="(item, idx) in products"
+        v-for="(item, idx) in myProds"
         :key="idx"
         :xs="12"
         :sm="12"
@@ -27,6 +27,10 @@ export default {
     return {};
   },
   computed: {
+    myProds() {
+      console.log(this.products);
+      return this.products;
+    },
     ...mapGetters("products", ["products"]),
   },
 };

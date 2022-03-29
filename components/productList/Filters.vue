@@ -160,7 +160,8 @@ export default {
   methods: {
     clearFilter() {
       this.$emit("clearFilter");
-      this.prices = [100, 1000];
+      const [min, max] = this.priceFilter;
+      this.prices = [min, max];
     },
     priceChanged(value) {
       this.onPriceChange(value);

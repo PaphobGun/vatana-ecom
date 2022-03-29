@@ -27,7 +27,7 @@ export default {
         limit: params.limit || 12,
         category: params.criteria?.categories?.map((c) => c.id),
         collection: params.criteria?.collections?.map((c) => c.id),
-        colors: params.criteria?.colors?.map((c) => c.id),
+        color: params.criteria?.colors?.map((c) => c.id),
         minPrice: params.criteria?.minPrice,
         maxPrice: params.criteria?.maxPrice,
         size: params.criteria?.size?.map((s) => s.id),

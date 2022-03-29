@@ -107,10 +107,11 @@ export default {
   },
   methods: {
     clearFilter() {
+      const [min, max] = this.priceFilter;
       this.page = 1;
       this.criteria = {
-        minPrice: 100,
-        maxPrice: 1000,
+        minPrice: min,
+        maxPrice: max,
         collections: [],
         categories: [],
         colors: [],

@@ -42,7 +42,6 @@ export default {
     };
   },
   created() {
-    console.log(this.item);
     this.selectedColor = this.item.images[0] || {};
   },
   methods: {
