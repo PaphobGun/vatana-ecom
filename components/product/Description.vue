@@ -50,7 +50,7 @@
     </div>
     <hr />
     <div></div>
-    <div>SKU: {{ item.SKU }}</div>
+    <div>SKU: {{ item.sku }}</div>
     <div>Category: {{ item.category }}</div>
     <div>Tag: {{ getTag() }}</div>
     <hr />
@@ -59,7 +59,7 @@
         <a-icon type="caret-right" :rotate="props.isActive ? 90 : 0" />
       </template>
       <a-collapse-panel :showArrow="false" key="1" header="Product Detail">
-        <p>{{ item.detail }}</p>
+        <p>{{ item.description }}</p>
       </a-collapse-panel>
       <a-collapse-panel
         :showArrow="false"
@@ -69,7 +69,7 @@
         <p>{{ item.additional }}</p>
       </a-collapse-panel>
       <a-collapse-panel key="3" :showArrow="false" header="More information">
-        <p>{{ item.moreInformation }}</p>
+        <p>{{ item.moreinformation }}</p>
       </a-collapse-panel>
     </a-collapse>
 

@@ -1,5 +1,8 @@
 <template>
   <div class="product-list container mx-auto">
+    <div class="loading-wrapper" v-if="isLoading">
+      <a-icon type="loading" />
+    </div>
     <a-row>
       <a-col :lg="{ span: 6 }" :xs="{ span: 0 }"
         ><Filters
@@ -9,20 +12,41 @@
           :onColorsChange="onColorsChange"
           :onSizeChange="onSizeChange"
           :onDelFilter="onDelFilter"
+          :onPriceChange="onPriceChange"
+          @clearFilter="clearFilter"
       /></a-col>
-      <a-col :lg="{ span: 17, offset: 1 }" :xs="{ span: 24 }">
+      <a-col :lg="{ span: 17, offset: 1 }" :xs="{ span: 24 }" class="content">
         <div class="sort-wrapper">
           <div class="count">{{ totalItems }} items</div>
-          <div class="sort">
-            <div class="text">Sorting</div>
-            <img src="~assets/images/sorting-order.png" alt="" class="icon" />
-          </div>
+          <a-dropdown class="sort">
+            <div>
+              <div class="text">Sorting</div>
+              <img src="~assets/images/sorting-order.png" alt="" class="icon" />
+            </div>
+            <a-menu slot="overlay" @click="onClickSort">
+              <a-menu-item key="asc"> Price Low-High </a-menu-item>
+              <a-menu-item key="desc"> Price High-Low </a-menu-item>
+            </a-menu>
+          </a-dropdown>
         </div>
         <div class="product-list-wrapper">
           <PaginationProduct />
         </div>
+        <div class="pagination-wrapper">
+          <Pagination
+            :currentPage="page"
+            :pageSize="12"
+            :total="totalItems"
+            @onPageChange="onPageChange"
+          />
+        </div>
       </a-col>
     </a-row>
+    <banner-modal
+      :isShow="isShowBannerModal"
+      :onClose="closeBannerModal"
+      image="banner-line.png"
+    />
   </div>
 </template>
 
@@ -31,11 +55,15 @@ import { mapActions, mapGetters } from "vuex";
 
 import Filters from "./Filters.vue";
 import PaginationProduct from "./PaginationProduct.vue";
+import Pagination from "../common/Pagination.vue";
+import BannerModal from "@/components/common/BannerModal.vue";
 
 export default {
   components: {
     Filters,
     PaginationProduct,
+    Pagination,
+    BannerModal,
   },
   data() {
     return {
@@ -49,17 +77,22 @@ export default {
       },
       page: 1,
       sort: "asc",
+      isLoading: false,
+      isShowBannerModal: true,
     };
   },
   async created() {
-    await Promise.all(
-      [this.getCollections(), this.getCategories()],
-      this.getProducts({
-        criteria: this.criteria,
-        page: this.page,
-        sort: this.sort,
-      })
-    );
+    await Promise.all([
+      this.getPriceFilter(),
+      this.getCollections(),
+      this.getCategories(),
+    ]);
+
+    const [min, max] = this.priceFilter;
+    this.criteria.minPrice = min;
+    this.criteria.maxPrice = max;
+
+    this.fetchProducts(this.criteria, this.page, this.sort);
   },
   computed: {
     filteredItems() {
@@ -78,16 +111,40 @@ export default {
 
       return [...collectionsMap, ...categoriesMap, ...colorsMap, ...sizeMap];
     },
-    ...mapGetters("products", ["totalItems"]),
+    ...mapGetters("products", ["totalItems", "priceFilter"]),
   },
   methods: {
+    closeBannerModal() {
+      this.isShowBannerModal = false;
+    },
+    clearFilter() {
+      const [min, max] = this.priceFilter;
+      this.page = 1;
+      this.criteria = {
+        minPrice: min,
+        maxPrice: max,
+        collections: [],
+        categories: [],
+        colors: [],
+        size: [],
+      };
+    },
+    onClickSort(_sort) {
+      this.sort = _sort.key;
+      this.page = 1;
+      this.fetchProducts(this.criteria, this.page, this.sort);
+    },
+    async onPageChange(_page) {
+      this.page = _page;
+      this.fetchProducts(this.criteria, this.page, this.sort);
+    },
     onCollectionsChange(item) {
       const target = this.criteria.collections.find(
-        (_item) => _item.uuid === item.uuid
+        (_item) => _item.id === item.id
       );
       if (target) {
         this.criteria.collections = this.criteria.collections.filter(
-          (__item) => __item.uuid !== item.uuid
+          (__item) => __item.id !== item.id
         );
       } else {
         this.criteria.collections = [...this.criteria.collections, item];
@@ -97,11 +154,11 @@ export default {
     },
     onCategoriesChange(item) {
       const target = this.criteria.categories.find(
-        (_item) => _item.uuid === item.uuid
+        (_item) => _item.id === item.id
       );
       if (target) {
         this.criteria.categories = this.criteria.categories.filter(
-          (__item) => __item.uuid !== item.uuid
+          (__item) => __item.id !== item.id
         );
       } else {
         this.criteria.categories = [...this.criteria.categories, item];
@@ -109,45 +166,50 @@ export default {
 
       console.log(this.criteria.categories);
     },
-    onColorsChange(item) {
-      const target = this.criteria.colors.find((_item) => _item.name === item);
+    onColorsChange(cid, name) {
+      const target = this.criteria.colors.find((c) => c.id === cid);
       if (target) {
-        this.criteria.colors = this.criteria.colors.filter(
-          (__item) => __item.name !== item
-        );
+        this.criteria.colors = this.criteria.colors.filter((c) => c.id !== cid);
       } else {
-        this.criteria.colors = [
-          ...this.criteria.colors,
-          { name: item, uuid: item },
-        ];
+        this.criteria.colors = [...this.criteria.colors, { id: cid, name }];
       }
 
       console.log(this.criteria.colors);
     },
-    onSizeChange(item) {
-      const target = this.criteria.size.find((_item) => _item.name === item);
+    onSizeChange(s) {
+      const target = this.criteria.size.find((_s) => _s.id === s.id);
       if (target) {
-        this.criteria.size = this.criteria.size.filter(
-          (__item) => __item.name !== item
-        );
+        this.criteria.size = this.criteria.size.filter((_s) => _s.id !== s.id);
       } else {
-        this.criteria.size = [
-          ...this.criteria.size,
-          { name: item, uuid: item },
-        ];
+        this.criteria.size = [...this.criteria.size, s];
       }
 
       console.log(this.criteria.size);
     },
     onDelFilter(item) {
       this.criteria[item.type] = this.criteria[item.type].filter(
-        (_item) => _item.uuid !== item.uuid
+        (_item) => _item.id !== item.id
       );
+    },
+    onPriceChange(value) {
+      const [min, max] = value;
+      this.criteria.minPrice = min;
+      this.criteria.maxPrice = max;
+    },
+    async fetchProducts(criteria, page, sort) {
+      this.isLoading = true;
+      await this.getProducts({
+        criteria,
+        page,
+        sort,
+      });
+      this.isLoading = false;
     },
     ...mapActions("products", [
       "getCollections",
       "getCategories",
       "getProducts",
+      "getPriceFilter",
     ]),
   },
   watch: {
@@ -163,11 +225,7 @@ export default {
           )
         );
 
-        await this.getProducts({
-          criteria: this.criteria,
-          page: this.page,
-          sort: this.sort,
-        });
+        await this.fetchProducts(this.criteria, this.page, this.sort);
       },
       deep: true,
     },
@@ -178,6 +236,23 @@ export default {
 <style lang="less" scoped>
 .product-list {
   padding: 30px 0;
+  position: relative;
+
+  .loading-wrapper {
+    position: absolute;
+    width: 100vw;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    i {
+      margin-top: 150px;
+      font-size: 92px;
+    }
+  }
 
   .sort-wrapper {
     display: flex;
@@ -202,8 +277,14 @@ export default {
     }
   }
 
-  .product-list-wrapper {
-    margin-top: 20px;
+  .content {
+    .product-list-wrapper {
+      margin-top: 20px;
+    }
+
+    .pagination-wrapper {
+      margin-top: 20px;
+    }
   }
 }
 </style>

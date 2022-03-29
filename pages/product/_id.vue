@@ -1,22 +1,20 @@
 <template>
   <div class="main-warpper">
     <div class="container">
-      <a-row v-if="product">
-        <a-col :lg="{ span: 12 }" :md="{ span: 12 }">
+      <a-row v-if="product" :gutter="[8, 8]">
+        <a-col :lg="{ span: 12 }" :xs="24" :sm="{ span: 24 }">
           <Gallery :item="images" />
-          <RelatedProduct
-            v-if="!isMobile && !isTablet"
-            :products="relatedProducts"
-          />
+          <div class="related-top">
+            <RelatedProduct :products="relatedProducts" />
+          </div>
         </a-col>
-        <a-col :lg="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }">
+        <a-col :lg="{ span: 12 }" :xs="24" :sm="24">
           <Description :item="product" :selectColor="selectColor" />
         </a-col>
-        <RelatedProduct
-          v-if="isMobile || isTablet"
-          :products="relatedProducts"
-        />
       </a-row>
+      <div class="related-bottom">
+        <RelatedProduct :products="relatedProducts" />
+      </div>
     </div>
   </div>
 </template>
@@ -45,9 +43,7 @@ export default {
   async created() {
     await Promise.all([
       this.getProduct(this.$route.params.id),
-      this.getRelatedProducts({
-        id: this.$route.params,
-      }),
+      this.getRelatedProducts(this.$route.params.id),
     ]);
     this.images = this.product;
   },
@@ -71,6 +67,20 @@ export default {
   .container {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .related-bottom {
+    display: none;
+  }
+
+  @media (max-width: 991px) {
+    .related-top {
+      display: none;
+    }
+
+    .related-bottom {
+      display: block;
+    }
   }
 }
 </style>

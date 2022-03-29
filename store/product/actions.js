@@ -11,9 +11,9 @@ export default {
 
     return product.data;
   },
-  async getRelatedProducts({ commit }) {
+  async getRelatedProducts({ commit }, id) {
     const products = await HttpClient.call({
-      url: "/product/relates",
+      url: `/product/${id}/relates`,
       method: "GET",
     });
 

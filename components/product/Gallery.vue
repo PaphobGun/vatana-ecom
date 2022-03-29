@@ -109,7 +109,6 @@ export default {
   }
 
   .product-image {
-    width: calc(100vw - 100px);
     height: auto;
   }
 }

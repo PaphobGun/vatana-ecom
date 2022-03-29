@@ -2,11 +2,17 @@
   <div class="main-warpper">
     <div class="related">Related Products</div>
     <div direction="vertical" class="pagination-product">
-      <ProductCard
-        v-for="(item, idx) in customProducts"
-        :key="idx"
-        :item="item"
-      />
+      <a-row :gutter="[16, 16]">
+        <a-col
+          v-for="(item, idx) in products.slice(0, 3)"
+          :key="idx"
+          :xs="12"
+          :sm="12"
+          :md="8"
+        >
+          <ProductCard :item="item" />
+        </a-col>
+      </a-row>
     </div>
   </div>
 </template>
@@ -27,14 +33,6 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    customProducts() {
-      return this.products.map((p) => ({
-        ...p,
-        images: p.img,
-      }));
-    },
-  },
 };
 </script>
 
@@ -43,9 +41,9 @@ export default {
   margin-top: 15px;
 }
 .pagination-product {
-  flex-wrap: wrap;
-  flex-direction: row;
-  display: flex;
+  // flex-wrap: wrap;
+  // flex-direction: row;
+  // display: flex;
 }
 
 .related {
@@ -56,10 +54,6 @@ export default {
 @media screen and (max-width: 600px) {
   ::v-deep .product-card .top .product-image {
     width: 100%;
-  }
-
-  .product-card {
-    width: 43%;
   }
 }
 </style>

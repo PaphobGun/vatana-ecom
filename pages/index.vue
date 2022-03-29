@@ -1,5 +1,6 @@
 <template>
   <Homepage />
+  <!-- <div>Redirecting...</div> -->
 </template>
 
 <script>
@@ -8,6 +9,9 @@ export default {
   name: "IndexPage",
   components: {
     Homepage,
+  },
+  created() {
+    // this.$router.push({ path: "/products" });
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <div class="filter-title">Products</div>
     <div class="filter-top">
       <div class="filter-text">Filters</div>
-      <div class="clear-text">Clear All</div>
+      <div @click="clearFilter" class="clear-text">Clear All</div>
     </div>
     <div class="filter-labels">
       <div
@@ -12,13 +12,20 @@
         :key="idx"
         @click="() => delFilter(item)"
       >
-        <span class="name">{{ item.name }}</span
+        <span class="name">{{ item.name || item.size }}</span
         ><span class="x">x</span>
       </div>
     </div>
     <div class="price">
       <div class="text">Price</div>
-      <a-slider range :defaultValue="[100, 1000]" :min="0" :max="1200" />
+      <a-slider
+        cancelable
+        @afterChange="priceChanged"
+        v-model="prices"
+        range
+        :min="priceFilter[0]"
+        :max="priceFilter[1]"
+      />
     </div>
     <div class="checkbox-filters">
       <div class="text">Collections</div>
@@ -28,12 +35,10 @@
           v-for="(item, index) in collections"
           :key="index"
           :checked="
-            filteredItems.find(
+            !!filteredItems.find(
               (_item) =>
                 _item.type === 'collections' && _item.uuid === item.uuid
             )
-              ? true
-              : false
           "
           @change="(_) => collectionsChanged(item)"
         >
@@ -49,11 +54,9 @@
           v-for="(item, index) in categories"
           :key="index"
           :checked="
-            filteredItems.find(
+            !!filteredItems.find(
               (_item) => _item.type === 'categories' && _item.uuid === item.uuid
             )
-              ? true
-              : false
           "
           @change="(_) => categoriesChanged(item)"
         >
@@ -64,50 +67,46 @@
     <div class="checkbox-filters">
       <div class="text">Colors</div>
       <div class="checkbox-list horizontal-list">
-        <a-checkbox
-          class="checkbox-item vertical-item"
-          v-for="(item, index) in colors"
-          :key="index"
-          :checked="
-            filteredItems.find(
-              (_item) => _item.type === 'colors' && _item.uuid === item
-            )
-              ? true
-              : false
+        <color-option
+          v-for="(c, idx) in colors"
+          :key="idx"
+          :text="c.name"
+          :color="c.code"
+          :id="c.id"
+          @clicked="colorsChanged"
+          :active="
+            !!filteredItems.find((_c) => _c.type === 'colors' && _c.id === c.id)
           "
-          @change="(_) => colorsChanged(item)"
-        >
-          {{ item }}
-        </a-checkbox>
+        />
       </div>
     </div>
     <div class="checkbox-filters size-wrapper">
       <div class="text">Size</div>
       <div class="checkbox-list horizontal-list">
-        <a-checkbox
-          class="checkbox-item vertical-item size"
-          v-for="(item, index) in size"
-          :key="index"
-          :checked="
-            filteredItems.find(
-              (_item) => _item.type === 'size' && _item.uuid === item
-            )
-              ? true
-              : false
+        <size-option
+          v-for="(s, idx) in sizes"
+          :key="idx"
+          :item="s"
+          @clicked="sizeChanged"
+          :active="
+            !!filteredItems.find((_s) => _s.type === 'size' && _s.id === s.id)
           "
-          @change="(_) => sizeChanged(item)"
-        >
-          {{ item }}
-        </a-checkbox>
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import ColorOption from "@/components/common/ColorOption.vue";
+import SizeOption from "@/components/common/SizeOption.vue";
 
 export default {
+  components: {
+    ColorOption,
+    SizeOption,
+  },
   props: {
     onCollectionsChange: {
       type: Function,
@@ -133,33 +132,57 @@ export default {
       type: Function,
       default: () => {},
     },
+    onPriceChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
-      filterItems: ["Men", "Black", "Red", "Summer"],
-      colors: ["Black", "Green", "Orange", "Blue", "White"],
-      size: ["S", "M", "L", "XL"],
+      filterItems: [],
+      prices: [100, 1000],
     };
   },
+  async created() {
+    await Promise.all([this.getSizes(), this.getColors()]);
+    const [min, max] = this.priceFilter;
+    this.prices = [min, max];
+  },
   computed: {
-    ...mapGetters("products", ["collections", "categories"]),
+    ...mapGetters("products", [
+      "collections",
+      "categories",
+      "priceFilter",
+      "sizes",
+      "colors",
+    ]),
   },
   methods: {
+    clearFilter() {
+      this.$emit("clearFilter");
+      const [min, max] = this.priceFilter;
+      this.prices = [min, max];
+    },
+    priceChanged(value) {
+      this.onPriceChange(value);
+    },
     collectionsChanged(item) {
       this.onCollectionsChange(item);
     },
     categoriesChanged(item) {
       this.onCategoriesChange(item);
     },
-    colorsChanged(item) {
-      this.onColorsChange(item);
+    colorsChanged(cid, name) {
+      this.onColorsChange(cid, name);
     },
     sizeChanged(item) {
+      console.log(item);
       this.onSizeChange(item);
     },
     delFilter(item) {
       this.onDelFilter(item);
     },
+    ...mapActions("products", ["getSizes", "getColors"]),
   },
 };
 </script>
@@ -219,6 +242,17 @@ export default {
   }
 
   .price {
+    ::v-deep .ant-slider-track {
+      background-color: #000;
+    }
+
+    ::v-deep .ant-slider-handle {
+      border-color: #000;
+    }
+    ::v-deep .ant-slider-handle.ant-tooltip-open {
+      border-color: #000;
+    }
+
     border-bottom: 1px solid #e6e6e6;
     padding: 20px 0;
 
@@ -246,6 +280,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      column-gap: 5px;
 
       &.horizontal-list {
         flex-direction: row;

@@ -7,10 +7,10 @@
       <div class="colors">
         <div
           class="color-item"
-          v-for="(color, cidx) in item.images"
+          v-for="(i, cidx) in item.images"
           :key="cidx"
-          :style="{ 'background-color': color.color }"
-          @click="() => selectColor(color)"
+          :style="{ 'background-color': i.color }"
+          @click="() => selectColor(cidx)"
         />
       </div>
     </div>
@@ -38,16 +38,17 @@ export default {
   },
   data() {
     return {
-      selectedColor: {},
+      selectedColorIndex: 0,
     };
   },
-  created() {
-    console.log(this.item);
-    this.selectedColor = this.item.images[0];
+  computed: {
+    selectedColor() {
+      return this.item.images[this.selectedColorIndex];
+    },
   },
   methods: {
-    selectColor(color) {
-      this.selectedColor = color;
+    selectColor(cidx) {
+      this.selectedColorIndex = cidx;
     },
   },
 };
@@ -57,12 +58,13 @@ export default {
 .product-card {
   border-radius: 4px;
   border: 1px solid #f1f1f1;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  width: 190px;
+  // margin-right: 16px;
+  // margin-bottom: 16px;
+  // width: 190px;
 
   .top {
     position: relative;
+    min-height: 167px;
     .product-image {
       width: 100%;
     }
@@ -87,9 +89,10 @@ export default {
 
   .bottom {
     padding: 10px;
+    height: 170px;
 
     .name {
-      font-size: 16px;
+      font-size: 12px;
       color: #000;
       margin-bottom: 10px;
       font-weight: 300;
@@ -117,7 +120,7 @@ export default {
   }
 
   @media only screen and (max-width: 576px) {
-    max-width: 135px;
+    // max-width: 135px;
 
     .top {
       .product-image {
