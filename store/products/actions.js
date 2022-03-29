@@ -7,7 +7,7 @@ export default {
       method: "GET",
     });
 
-    commit("SET_COLLECTIONS", collections.data);
+    commit("SET_COLLECTIONS", collections?.data);
   },
   async getCategories({ commit }) {
     const categories = await HttpClient.call({
@@ -15,7 +15,7 @@ export default {
       method: "GET",
     });
 
-    commit("SET_CATEGORIES", categories.data);
+    commit("SET_CATEGORIES", categories?.data);
   },
   async getProducts({ commit }, params) {
     const products = await HttpClient.call({
@@ -34,8 +34,8 @@ export default {
       },
     });
 
-    commit("SET_PRODUCTS", products.data);
-    commit("SET_PRODUCTS_COUNT", products.total);
+    commit("SET_PRODUCTS", products?.data);
+    commit("SET_PRODUCTS_COUNT", products?.total);
   },
   async getPriceFilter({ commit }) {
     const prices = await HttpClient.call({
@@ -43,7 +43,7 @@ export default {
       method: "GET",
     });
 
-    commit("SET_PRICE_FILTER", [prices.min_price, prices.max_price]);
+    commit("SET_PRICE_FILTER", [prices?.min_price, prices?.max_price]);
   },
   async getColors({ commit }) {
     const colors = await HttpClient.call({
@@ -51,7 +51,7 @@ export default {
       method: "GET",
     });
 
-    commit("SET_COLORS", colors.data);
+    commit("SET_COLORS", colors?.data);
   },
   async getSizes({ commit }) {
     const sizes = await HttpClient.call({
@@ -59,6 +59,6 @@ export default {
       method: "GET",
     });
 
-    commit("SET_SIZES", sizes.data);
+    commit("SET_SIZES", sizes?.data);
   },
 };

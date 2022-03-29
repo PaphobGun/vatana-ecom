@@ -7,10 +7,10 @@
       <div class="colors">
         <div
           class="color-item"
-          v-for="(color, cidx) in item.images"
+          v-for="(i, cidx) in item.images"
           :key="cidx"
-          :style="{ 'background-color': color.color }"
-          @click="() => selectColor(color)"
+          :style="{ 'background-color': i.color }"
+          @click="() => selectColor(cidx)"
         />
       </div>
     </div>
@@ -38,15 +38,17 @@ export default {
   },
   data() {
     return {
-      selectedColor: {},
+      selectedColorIndex: 0,
     };
   },
-  created() {
-    this.selectedColor = this.item.images[0] || {};
+  computed: {
+    selectedColor() {
+      return this.item.images[this.selectedColorIndex];
+    },
   },
   methods: {
-    selectColor(color) {
-      this.selectedColor = color;
+    selectColor(cidx) {
+      this.selectedColorIndex = cidx;
     },
   },
 };

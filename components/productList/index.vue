@@ -1,5 +1,8 @@
 <template>
   <div class="product-list container mx-auto">
+    <div class="loading-wrapper" v-if="isLoading">
+      <a-icon type="loading" />
+    </div>
     <a-row>
       <a-col :lg="{ span: 6 }" :xs="{ span: 0 }"
         ><Filters
@@ -39,6 +42,11 @@
         </div>
       </a-col>
     </a-row>
+    <banner-modal
+      :isShow="isShowBannerModal"
+      :onClose="closeBannerModal"
+      image="banner-line.png"
+    />
   </div>
 </template>
 
@@ -48,12 +56,14 @@ import { mapActions, mapGetters } from "vuex";
 import Filters from "./Filters.vue";
 import PaginationProduct from "./PaginationProduct.vue";
 import Pagination from "../common/Pagination.vue";
+import BannerModal from "@/components/common/BannerModal.vue";
 
 export default {
   components: {
     Filters,
     PaginationProduct,
     Pagination,
+    BannerModal,
   },
   data() {
     return {
@@ -67,6 +77,8 @@ export default {
       },
       page: 1,
       sort: "asc",
+      isLoading: false,
+      isShowBannerModal: true,
     };
   },
   async created() {
@@ -80,11 +92,7 @@ export default {
     this.criteria.minPrice = min;
     this.criteria.maxPrice = max;
 
-    this.getProducts({
-      criteria: this.criteria,
-      page: this.page,
-      sort: this.sort,
-    });
+    this.fetchProducts(this.criteria, this.page, this.sort);
   },
   computed: {
     filteredItems() {
@@ -106,6 +114,9 @@ export default {
     ...mapGetters("products", ["totalItems", "priceFilter"]),
   },
   methods: {
+    closeBannerModal() {
+      this.isShowBannerModal = false;
+    },
     clearFilter() {
       const [min, max] = this.priceFilter;
       this.page = 1;
@@ -121,19 +132,11 @@ export default {
     onClickSort(_sort) {
       this.sort = _sort.key;
       this.page = 1;
-      this.getProducts({
-        criteria: this.criteria,
-        page: this.page,
-        sort: this.sort,
-      });
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     async onPageChange(_page) {
       this.page = _page;
-      await this.getProducts({
-        criteria: this.criteria,
-        page: this.page,
-        sort: this.sort,
-      });
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onCollectionsChange(item) {
       const target = this.criteria.collections.find(
@@ -193,6 +196,15 @@ export default {
       this.criteria.minPrice = min;
       this.criteria.maxPrice = max;
     },
+    async fetchProducts(criteria, page, sort) {
+      this.isLoading = true;
+      await this.getProducts({
+        criteria,
+        page,
+        sort,
+      });
+      this.isLoading = false;
+    },
     ...mapActions("products", [
       "getCollections",
       "getCategories",
@@ -213,11 +225,7 @@ export default {
           )
         );
 
-        await this.getProducts({
-          criteria: this.criteria,
-          page: this.page,
-          sort: this.sort,
-        });
+        await this.fetchProducts(this.criteria, this.page, this.sort);
       },
       deep: true,
     },
@@ -228,6 +236,23 @@ export default {
 <style lang="less" scoped>
 .product-list {
   padding: 30px 0;
+  position: relative;
+
+  .loading-wrapper {
+    position: absolute;
+    width: 100vw;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    i {
+      margin-top: 150px;
+      font-size: 92px;
+    }
+  }
 
   .sort-wrapper {
     display: flex;
