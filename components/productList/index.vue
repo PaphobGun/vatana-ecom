@@ -3,6 +3,26 @@
     <div class="loading-wrapper" v-if="isLoading">
       <a-icon type="loading" />
     </div>
+    <div class="mobile-title-row">
+      <h1 class="mobile-title">Products</h1>
+      <div class="total">{{ totalItems }} items</div>
+    </div>
+    <div class="mobile-sorting-row">
+      <div @click="showFilter" class="filter">
+        <a-icon type="filter" class="icon" />
+        <div class="text">Filter</div>
+      </div>
+      <a-dropdown class="sort">
+        <div>
+          <div class="text">Sorting</div>
+          <img src="~assets/images/sorting-order.png" alt="" class="icon" />
+        </div>
+        <a-menu slot="overlay" @click="onClickSort">
+          <a-menu-item key="asc"> Price Low-High </a-menu-item>
+          <a-menu-item key="desc"> Price High-Low </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    </div>
     <a-row>
       <a-col :lg="{ span: 6 }" :xs="{ span: 0 }"
         ><Filters
@@ -16,7 +36,7 @@
           @clearFilter="clearFilter"
       /></a-col>
       <a-col :lg="{ span: 17, offset: 1 }" :xs="{ span: 24 }" class="content">
-        <div class="sort-wrapper">
+        <div class="sort-wrapper desktop">
           <div class="count">{{ totalItems }} items</div>
           <a-dropdown class="sort">
             <div>
@@ -47,6 +67,23 @@
       :onClose="closeBannerModal"
       image="banner-line.png"
     />
+    <a-drawer
+      :visible="isShowFilter"
+      @close="closeFilter"
+      placement="left"
+      title="Filters"
+    >
+      <Filters
+        :onCollectionsChange="onCollectionsChange"
+        :onCategoriesChange="onCategoriesChange"
+        :filteredItems="filteredItems"
+        :onColorsChange="onColorsChange"
+        :onSizeChange="onSizeChange"
+        :onDelFilter="onDelFilter"
+        :onPriceChange="onPriceChange"
+        @clearFilter="clearFilter"
+      />
+    </a-drawer>
   </div>
 </template>
 
@@ -79,6 +116,7 @@ export default {
       sort: "asc",
       isLoading: false,
       isShowBannerModal: true,
+      isShowFilter: false,
     };
   },
   async created() {
@@ -114,6 +152,12 @@ export default {
     ...mapGetters("products", ["totalItems", "priceFilter"]),
   },
   methods: {
+    showFilter() {
+      this.isShowFilter = true;
+    },
+    closeFilter() {
+      this.isShowFilter = false;
+    },
     closeBannerModal() {
       this.isShowBannerModal = false;
     },
@@ -238,6 +282,23 @@ export default {
   padding: 30px 0;
   position: relative;
 
+  .sort {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+
+    .text {
+      margin-right: 5px;
+    }
+
+    .icon {
+      width: 15px;
+    }
+  }
+
   .loading-wrapper {
     position: absolute;
     width: 100vw;
@@ -258,23 +319,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    .sort {
-      display: flex;
-      align-items: center;
-      border: 1px solid #000;
-      border-radius: 4px;
-      padding: 5px 10px;
-      cursor: pointer;
-
-      .text {
-        margin-right: 5px;
-      }
-
-      .icon {
-        width: 15px;
-      }
-    }
   }
 
   .content {
@@ -284,6 +328,49 @@ export default {
 
     .pagination-wrapper {
       margin-top: 20px;
+    }
+  }
+
+  .mobile-title-row {
+    display: none;
+  }
+
+  .mobile-sorting-row {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sort-wrapper {
+      &.desktop {
+        display: none;
+      }
+    }
+
+    .mobile-sorting-row {
+      display: flex;
+      justify-content: space-between;
+
+      .filter {
+        display: flex;
+        align-items: center;
+        border: 1px solid #000;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+
+        .text {
+          margin-left: 5px;
+        }
+
+        .icon {
+          width: 15px;
+        }
+      }
     }
   }
 }
