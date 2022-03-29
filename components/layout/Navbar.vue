@@ -10,10 +10,10 @@
           <li class="menu-dis">
             <nuxt-link to="/products"> PRODUCT </nuxt-link>
           </li>
-          <li class="menu-dis">
+          <!-- <li class="menu-dis">
             <nuxt-link to="/promotion"> PROMOTION </nuxt-link>
           </li>
-          <li class="menu-dis">LOOKBOOK</li>
+          <li class="menu-dis">LOOKBOOK</li> -->
         </ul>
       </section>
       <div class="center-menu">

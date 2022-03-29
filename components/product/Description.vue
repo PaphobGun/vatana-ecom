@@ -29,7 +29,7 @@
       </div>
     </div>
     <hr />
-    <div class="flex-wrap">
+    <!-- <div class="flex-wrap">
       <a-row class="flex-wrap center" style="">
         <a-row class="flex-wrap">
           <div class="input-bt input-bt-add" style="" v-on:click="add()">+</div>
@@ -48,7 +48,7 @@
         </a-row>
       </a-row>
     </div>
-    <hr />
+    <hr /> -->
     <div></div>
     <div>SKU: {{ item.sku }}</div>
     <div>Category: {{ item.category }}</div>
@@ -102,7 +102,7 @@
         <p>{{ text }}</p>
       </a-collapse-panel>
     </a-collapse> -->
-    <div class="shared-main">
+    <!-- <div class="shared-main">
       <div class="shared">Shared</div>
       <a-row class="social-wrapper">
         <font-awesome-icon
@@ -122,7 +122,7 @@
           icon="fa-brands fa-sm fa-facebook-messenger"
         />
       </a-row>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
-  <Homepage />
-  <!-- <div>Redirecting...</div> -->
+  <!-- <Homepage /> -->
+  <div>Redirecting...</div>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     Homepage,
   },
   created() {
-    // this.$router.push({ path: "/products" });
+    this.$router.push({ path: "/products" });
   },
 };
 </script>
