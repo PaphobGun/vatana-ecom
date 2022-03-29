@@ -281,6 +281,7 @@ export default {
       flex-direction: column;
       align-items: flex-start;
       column-gap: 5px;
+      row-gap: 5px;
 
       &.horizontal-list {
         flex-direction: row;
