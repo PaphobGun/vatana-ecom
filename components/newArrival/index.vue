@@ -1,14 +1,14 @@
 <template>
-  <div class="promotion">
+  <div class="arrival">
     <div class="container mx-auto">
       <a-row>
         <a-col :span="24">
-          <div class="promotion__banner">
-            <img :src="bannerImg" alt="" class="promotion__banner__img" />
+          <div class="arrival__banner">
+            <img :src="bannerImg" alt="" class="arrival__banner__img" />
           </div>
         </a-col>
       </a-row>
-      <div class="mt-20 promotion__product">
+      <div class="mt-20 arrival__product">
         <h1 class="title">Products</h1>
         <nuxt-link to="/products" class="link"> View all </nuxt-link>
       </div>
@@ -39,19 +39,19 @@ export default {
     ProductCard,
   },
   created() {
-    this.getPromotion();
+    this.getArrival();
   },
   computed: {
-    ...mapGetters("promotion", ["products", "bannerImg"]),
+    ...mapGetters("arrival", ["products", "bannerImg"]),
   },
   methods: {
-    ...mapActions("promotion", ["getPromotion"]),
+    ...mapActions("arrival", ["getArrival"]),
   },
 };
 </script>
 
 <style lang="less" scoped>
-.promotion {
+.arrival {
   .container {
     padding-top: 40px;
     padding-bottom: 40px;

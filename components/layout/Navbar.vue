@@ -11,9 +11,11 @@
             <nuxt-link to="/products"> PRODUCT </nuxt-link>
           </li>
           <li class="menu-dis">
-            <nuxt-link to="/promotion"> PROMOTION </nuxt-link>
+            <nuxt-link to="/new-arrival"> NEW ARRIVAL </nuxt-link>
           </li>
-          <li class="menu-dis">LOOKBOOK</li>
+          <li class="menu-dis">
+            <nuxt-link to="/lookbooks">LOOKBOOK </nuxt-link>
+          </li>
         </ul>
       </section>
       <div class="center-menu">

@@ -37,6 +37,9 @@ export default {
 <style lang="less" scoped>
 ::v-deep .ant-modal {
   width: 900px !important;
+  @media (max-width: 950px) {
+    width: 520px !important;
+  }
 }
 ::v-deep .ant-modal-close-x {
   font-size: 20px;

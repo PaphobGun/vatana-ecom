@@ -9,7 +9,9 @@
           :xs="idx === 0 ? { span: 24 } : { span: 12 }"
           :lg="idx === 0 ? { span: 12 } : { span: 6 }"
         >
-          <img :src="b.img" alt="img" class="homepage__banners__item__pic" />
+          <nuxt-link to="/promotion">
+            <img :src="b.img" alt="img" class="homepage__banners__item__pic" />
+          </nuxt-link>
         </a-col>
       </a-row>
       <div class="homepage__category__top">
