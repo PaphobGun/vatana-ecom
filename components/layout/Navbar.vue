@@ -26,7 +26,7 @@
       <div class="right-menu">
         <a-icon class="menu-icon" type="search" />
         <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
-        <a-icon class="menu-icon" type="shopping" />
+        <a-icon @click="onClickCart" class="menu-icon" type="shopping" />
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
         <a-dropdown class="menu-item">
           <a-icon type="user" />
@@ -55,6 +55,14 @@
       :isShow="isShowRequestResetPasswordModal"
       :onClose="closeRequestResetPasswordModal"
     />
+    <a-drawer
+      :title="`Shopping Cart (1)`"
+      placement="right"
+      :visible="isShowCart"
+      @close="closeCart"
+    >
+      CART
+    </a-drawer>
   </a-layout-header>
 </template>
 
@@ -78,6 +86,12 @@ export default {
     };
   },
   methods: {
+    onClickCart() {
+      this.setIsShowCart(true);
+    },
+    closeCart() {
+      this.setIsShowCart(false);
+    },
     onClickAuthMenu(menu) {
       if (menu.key === "in") {
         this.showLoginModal();
@@ -103,10 +117,11 @@ export default {
     closeRequestResetPasswordModal() {
       this.isShowRequestResetPasswordModal = false;
     },
+    ...mapActions("common", ["setIsShowCart"]),
     ...mapActions("auth", ["signOut"]),
   },
   computed: {
-    ...mapGetters("common", ["isMobile", "isTablet"]),
+    ...mapGetters("common", ["isMobile", "isTablet", "isShowCart"]),
     ...mapGetters("auth", ["isLoggedIn"]),
   },
 };
@@ -309,7 +324,7 @@ body {
     }
 
     .menu-icon:nth-child(3) {
-      margin-right: 20px;
+      cursor: pointer;
     }
 
     .menu-item {

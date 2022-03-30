@@ -41,7 +41,7 @@
           <div class="input-bt input-bt-remove" style="" v-on:click="remove()">
             -
           </div>
-          <button class="button-add">ADD TO CART</button>
+          <button @click="addToCart" class="button-add">ADD TO CART</button>
           <div class="fav-item">
             <font-awesome-icon class="social-item" icon="fa-solid fa-heart" />
           </div>
@@ -72,36 +72,6 @@
         <p>{{ item.moreinformation }}</p>
       </a-collapse-panel>
     </a-collapse>
-
-    <!-- <a-collapse :bordered="false">
-      <template #expandIcon="props">
-        <a-icon type="caret-right" :rotate="props.isActive ? 90 : 0" />
-      </template>
-      <a-collapse-panel
-        key="1"
-        header="This is panel header 1"
-        :style="customStyle"
-        :showArrow="false"
-      >
-        <p>{{ text }}</p>
-      </a-collapse-panel>
-      <a-collapse-panel
-        key="2"
-        header="This is panel header 2"
-        :style="customStyle"
-        :showArrow="false"
-      >
-        <p>{{ text }}</p>
-      </a-collapse-panel>
-      <a-collapse-panel
-        key="3"
-        header="This is panel header 3"
-        :style="customStyle"
-        :showArrow="false"
-      >
-        <p>{{ text }}</p>
-      </a-collapse-panel>
-    </a-collapse> -->
     <div class="shared-main">
       <div class="shared">Shared</div>
       <a-row class="social-wrapper">
@@ -164,11 +134,14 @@ export default {
     getTag() {
       if (this.item.tags) return this.item.tags.toString();
     },
+    addToCart() {
+      this.setIsShowCart(true);
+    },
+    ...mapActions("common", ["setIsShowCart"]),
   },
   computed: {
     ...mapGetters("product", ["product"]),
   },
-  watch: {},
 };
 </script>
 
@@ -223,6 +196,7 @@ export default {
   font-size: 16px;
   margin-left: 25px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .input-bt-add {
