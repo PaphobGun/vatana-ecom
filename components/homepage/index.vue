@@ -37,7 +37,7 @@
       </a-row>
       <div class="homepage__featured__top">
         <h1 class="title">Featured Products</h1>
-        <nuxt-link to="" class="link"> View all </nuxt-link>
+        <nuxt-link to="/products" class="link"> View all </nuxt-link>
       </div>
       <a-row
         class="homepage__featured"
@@ -104,7 +104,7 @@
       </a-row>
       <div class="homepage__lookbook__top">
         <h1 class="title">Lookbooks</h1>
-        <nuxt-link to="" class="link"> View all </nuxt-link>
+        <nuxt-link to="lookbooks" class="link"> View all </nuxt-link>
       </div>
       <a-col
         class="homepage__lookbook__item"

@@ -31,8 +31,11 @@
         <a-dropdown class="menu-item">
           <a-icon type="user" />
           <a-menu slot="overlay" @click="onClickAuthMenu">
-            <a-menu-item key="in" v-if="!isLoggedIn"> SIGN IN </a-menu-item>
-            <a-menu-item key="out" v-else> SIGN OUT </a-menu-item>
+            <a-menu-item key="profile" v-if="isLoggedIn">
+              <nuxt-link to="/profile"> Profile </nuxt-link>
+            </a-menu-item>
+            <a-menu-item key="in" v-if="!isLoggedIn"> Sign in </a-menu-item>
+            <a-menu-item key="out" v-else> Sign out </a-menu-item>
           </a-menu>
         </a-dropdown>
       </div>
@@ -78,7 +81,7 @@ export default {
     onClickAuthMenu(menu) {
       if (menu.key === "in") {
         this.showLoginModal();
-      } else {
+      } else if (menu.key === "out") {
         this.signOut();
       }
     },
