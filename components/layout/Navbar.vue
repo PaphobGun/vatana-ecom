@@ -56,12 +56,13 @@
       :onClose="closeRequestResetPasswordModal"
     />
     <a-drawer
-      :title="`Shopping Cart (1)`"
+      :title="`Shopping Cart (${totalAmount})`"
       placement="right"
       :visible="isShowCart"
       @close="closeCart"
+      class="cart-drawer"
     >
-      CART
+      <cart />
     </a-drawer>
   </a-layout-header>
 </template>
@@ -71,12 +72,14 @@ import { mapGetters, mapActions } from "vuex";
 import LoginModal from "../auth/LoginModal.vue";
 import RegisterModal from "../auth/RegisterModal.vue";
 import RequestResetPasswordModal from "../auth/RequestResetPasswordModal.vue";
+import Cart from "@/components/Cart";
 
 export default {
   components: {
     LoginModal,
     RegisterModal,
     RequestResetPasswordModal,
+    Cart,
   },
   data() {
     return {
@@ -86,7 +89,8 @@ export default {
     };
   },
   methods: {
-    onClickCart() {
+    async onClickCart() {
+      await this.getCartItems();
       this.setIsShowCart(true);
     },
     closeCart() {
@@ -119,10 +123,12 @@ export default {
     },
     ...mapActions("common", ["setIsShowCart"]),
     ...mapActions("auth", ["signOut"]),
+    ...mapActions("cart", ["getCartItems"]),
   },
   computed: {
     ...mapGetters("common", ["isMobile", "isTablet", "isShowCart"]),
     ...mapGetters("auth", ["isLoggedIn"]),
+    ...mapGetters("cart", ["totalAmount"]),
   },
 };
 </script>

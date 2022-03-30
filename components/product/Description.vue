@@ -11,8 +11,14 @@
     <div class="size">
       <div class="size-name">Size</div>
       <div class="size-wrapper">
-        <div class="size-item" v-for="(size, idx) in item.sizes" :key="idx">
-          {{ size }}
+        <div
+          @click="() => onClickSize(size.size_id)"
+          class="size-item"
+          :class="{ active: size_id === size.size_id }"
+          v-for="(size, idx) in item.sizes"
+          :key="idx"
+        >
+          {{ size.label }}
         </div>
       </div>
     </div>
@@ -21,10 +27,11 @@
       <div class="colors">
         <div
           class="color-item"
+          :class="{ active: color.color_id === color_id }"
           v-for="(color, cidx) in item.images"
           :key="cidx"
           :style="{ 'background-color': color.color }"
-          @click="() => selectColor(cidx)"
+          @click="() => onClickColor(color.color_id)"
         />
       </div>
     </div>
@@ -41,10 +48,17 @@
           <div class="input-bt input-bt-remove" style="" v-on:click="remove()">
             -
           </div>
-          <button @click="addToCart" class="button-add">ADD TO CART</button>
-          <div class="fav-item">
+          <button
+            @click="addToCart"
+            :disabled="!size_id || !color_id"
+            class="button-add"
+            v-if="isLoggedIn"
+          >
+            ADD TO CART
+          </button>
+          <!-- <div class="fav-item">
             <font-awesome-icon class="social-item" icon="fa-solid fa-heart" />
-          </div>
+          </div> -->
         </a-row>
       </a-row>
     </div>
@@ -122,6 +136,8 @@ export default {
       data: "",
       images: {},
       qty: 1,
+      size_id: "",
+      color_id: "",
     };
   },
   methods: {
@@ -134,13 +150,46 @@ export default {
     getTag() {
       if (this.item.tags) return this.item.tags.toString();
     },
-    addToCart() {
+    onClickColor(_color_id) {
+      this.color_id = _color_id;
+      this.selectColor(_color_id);
+    },
+    onClickSize(_size_id) {
+      this.size_id = _size_id;
+    },
+    async addToCart() {
+      if (!this.size_id || !this.color_id) {
+        return;
+      }
+      await this.addCartItem({
+        amount: this.qty,
+        product_id: this.item.id,
+        size_id: this.size_id,
+        color_id: this.color_id,
+      });
+      await this.getCartItems();
       this.setIsShowCart(true);
     },
     ...mapActions("common", ["setIsShowCart"]),
+    ...mapActions("cart", ["addCartItem", "getCartItems"]),
   },
   computed: {
     ...mapGetters("product", ["product"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
+  watch: {
+    product() {
+      this.size_id =
+        this.item &&
+        this.item.sizes &&
+        this.item.sizes.length &&
+        this.item.sizes[0].size_id;
+      this.color_id =
+        this.item &&
+        this.item.images &&
+        this.item.images.length &&
+        this.item.images[0].color_id;
+    },
   },
 };
 </script>
@@ -264,6 +313,12 @@ export default {
     display: inherit;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    &.active {
+      background-color: #212121;
+      color: #fff;
+    }
   }
 }
 
@@ -309,6 +364,12 @@ export default {
     height: 32px;
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 4px;
+
+    &.active {
+      transition: all 200ms ease-in;
+      transform: scale(1.2);
+      box-shadow: 0px 0px 150px #000000;
+    }
   }
 }
 

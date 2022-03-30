@@ -20,7 +20,7 @@
       </div>
       <div class="size-wrapper">
         <div class="size-item" v-for="(size, idx) in item.sizes" :key="idx">
-          {{ size }}
+          {{ size.label }}
         </div>
       </div>
       <div class="price">{{ item.price }} ฿</div>
