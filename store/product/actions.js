@@ -7,9 +7,9 @@ export default {
       method: "GET",
     });
 
-    commit("SET_PRODUCT", product.data);
+    commit("SET_PRODUCT", product?.data);
 
-    return product.data;
+    return product?.data;
   },
   async getRelatedProducts({ commit }, id) {
     const products = await HttpClient.call({
@@ -17,8 +17,8 @@ export default {
       method: "GET",
     });
 
-    commit("SET_RELATED_PRODUCT", products.data);
+    commit("SET_RELATED_PRODUCT", products?.data);
 
-    return products.data;
+    return products?.data;
   },
 };

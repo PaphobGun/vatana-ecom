@@ -77,7 +77,7 @@ export default {
 }
 
 .group-list {
-  height: 500px;
+  // height: 500px;
 
   .group-item {
     cursor: pointer;
@@ -89,7 +89,7 @@ export default {
 
 .product-image {
   width: 100%;
-  height: 500px;
+  // height: 500px;
 }
 
 @media screen and (max-width: 768px) {

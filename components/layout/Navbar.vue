@@ -11,7 +11,7 @@
             <nuxt-link to="/products"> PRODUCT </nuxt-link>
           </li>
           <li class="menu-dis">
-            <nuxt-link to="/new-arrival"> NEW ARRIVAL </nuxt-link>
+            <nuxt-link to="/new-arrival"> NEW ARRIVALS </nuxt-link>
           </li>
           <li class="menu-dis">
             <nuxt-link to="/lookbooks">LOOKBOOK </nuxt-link>

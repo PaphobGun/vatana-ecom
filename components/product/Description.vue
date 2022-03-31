@@ -30,7 +30,10 @@
           :class="{ active: color.color_id === color_id }"
           v-for="(color, cidx) in item.images"
           :key="cidx"
-          :style="{ 'background-color': color.color }"
+          :style="{
+            'background-color': color.color,
+            display: color.is_main ? 'block' : 'none',
+          }"
           @click="() => onClickColor(color.color_id)"
         />
       </div>
@@ -56,9 +59,9 @@
           >
             ADD TO CART
           </button>
-          <!-- <div class="fav-item">
+          <div class="fav-item">
             <font-awesome-icon class="social-item" icon="fa-solid fa-heart" />
-          </div> -->
+          </div>
         </a-row>
       </a-row>
     </div>
@@ -72,6 +75,34 @@
       <template #expandIcon="props">
         <a-icon type="caret-right" :rotate="props.isActive ? 90 : 0" />
       </template>
+      <a-collapse-panel :showArrow="false" key="0" header="Size Guide">
+        <div class="size-guide">
+          <div class="button-row">
+            <div
+              class="inch"
+              :class="{ active: unit === 'inch' }"
+              @click="() => activeUnit('inch')"
+            >
+              INCH
+            </div>
+            <div
+              class="cm"
+              :class="{ active: unit === 'cm' }"
+              @click="() => activeUnit('cm')"
+            >
+              CM
+            </div>
+          </div>
+          <a-table
+            :pagination="false"
+            bordered
+            row-key="size_id"
+            :columns="columns"
+            :data-source="item.size_guides"
+          >
+          </a-table>
+        </div>
+      </a-collapse-panel>
       <a-collapse-panel :showArrow="false" key="1" header="Product Detail">
         <p>{{ item.description }}</p>
       </a-collapse-panel>
@@ -138,9 +169,36 @@ export default {
       qty: 1,
       size_id: "",
       color_id: "",
+      unit: "inch",
     };
   },
+  computed: {
+    columns() {
+      return [
+        {
+          dataIndex: "size",
+          key: "size",
+          title: "Size",
+        },
+        {
+          dataIndex: `chest_${this.unit}`,
+          key: "chest_inch",
+          title: "Chest",
+        },
+        {
+          dataIndex: `length_${this.unit}`,
+          key: "length_inch",
+          title: "Length",
+        },
+      ];
+    },
+    ...mapGetters("product", ["product"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
   methods: {
+    activeUnit(_unit) {
+      this.unit = _unit;
+    },
     add() {
       this.qty = this.qty + 1;
     },
@@ -173,10 +231,6 @@ export default {
     ...mapActions("common", ["setIsShowCart"]),
     ...mapActions("cart", ["addCartItem", "getCartItems"]),
   },
-  computed: {
-    ...mapGetters("product", ["product"]),
-    ...mapGetters("auth", ["isLoggedIn"]),
-  },
   watch: {
     product() {
       this.size_id =
@@ -206,6 +260,7 @@ export default {
   width: 32px;
   height: 32px;
   text-align: center;
+  cursor: pointer;
 
   font-size: 16px;
   display: inherit;
@@ -369,6 +424,39 @@ export default {
       transition: all 200ms ease-in;
       transform: scale(1.2);
       box-shadow: 0px 0px 150px #000000;
+    }
+  }
+}
+
+.size-guide {
+  .button-row {
+    width: fit-content;
+    display: flex;
+    border: 1px solid #212121;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    .inch {
+      padding: 5px;
+      border-right: 1px solid #212121;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+
+      &.active {
+        background-color: #212121;
+        color: #fff;
+      }
+    }
+
+    .cm {
+      padding: 5px;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      &.active {
+        background-color: #212121;
+        color: #fff;
+      }
     }
   }
 }
