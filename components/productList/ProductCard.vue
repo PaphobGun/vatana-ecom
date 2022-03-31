@@ -9,7 +9,10 @@
           class="color-item"
           v-for="(i, cidx) in item.images"
           :key="cidx"
-          :style="{ 'background-color': i.color }"
+          :style="{
+            'background-color': i.color,
+            display: i.is_main ? 'block' : 'none',
+          }"
           @click="() => selectColor(cidx)"
         />
       </div>
@@ -20,7 +23,7 @@
       </div>
       <div class="size-wrapper">
         <div class="size-item" v-for="(size, idx) in item.sizes" :key="idx">
-          {{ size }}
+          {{ size.label }}
         </div>
       </div>
       <div class="price">{{ item.price }} ฿</div>
@@ -43,7 +46,11 @@ export default {
   },
   computed: {
     selectedColor() {
-      return this.item.images[this.selectedColorIndex];
+      if (this.item && this.item.images && this.item.images.length) {
+        return this.item.images[this.selectedColorIndex];
+      }
+
+      return { url: "" };
     },
   },
   methods: {
@@ -64,7 +71,7 @@ export default {
 
   .top {
     position: relative;
-    min-height: 167px;
+    min-height: 195px;
     .product-image {
       width: 100%;
     }
@@ -123,6 +130,7 @@ export default {
     // max-width: 135px;
 
     .top {
+      min-height: 150px;
       .product-image {
         width: 100%;
       }

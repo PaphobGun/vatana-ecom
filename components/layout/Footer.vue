@@ -195,8 +195,12 @@
       </div>
     </a-layout-footer>
     <hr />
-    <a-row class="copyright container" type="flex" :justify="checkSize()">
-      <div>Copyright © 2021 Shop name, Inc. All rights reserved</div>
+    <a-row
+      class="copyright container mx-auto"
+      type="flex"
+      :justify="checkSize()"
+    >
+      <div>Copyright © 2022 Vattana, All rights reserved</div>
       <a-row class="main-warpprt termAndPrivacy">
         <a href="">Terms & Condition</a>
         <a class="privacy" href="">Privacy Policy</a>
@@ -252,6 +256,7 @@ export default {
 }
 .copyright {
   margin: 15px;
+  padding-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
 }

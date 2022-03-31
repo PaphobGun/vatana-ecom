@@ -36,8 +36,7 @@
           :key="index"
           :checked="
             !!filteredItems.find(
-              (_item) =>
-                _item.type === 'collections' && _item.uuid === item.uuid
+              (_item) => _item.type === 'collections' && _item.id === item.id
             )
           "
           @change="(_) => collectionsChanged(item)"
@@ -55,7 +54,7 @@
           :key="index"
           :checked="
             !!filteredItems.find(
-              (_item) => _item.type === 'categories' && _item.uuid === item.uuid
+              (_item) => _item.type === 'categories' && _item.id === item.id
             )
           "
           @change="(_) => categoriesChanged(item)"

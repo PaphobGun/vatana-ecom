@@ -11,8 +11,14 @@
     <div class="size">
       <div class="size-name">Size</div>
       <div class="size-wrapper">
-        <div class="size-item" v-for="(size, idx) in item.sizes" :key="idx">
-          {{ size }}
+        <div
+          @click="() => onClickSize(size.size_id)"
+          class="size-item"
+          :class="{ active: size_id === size.size_id }"
+          v-for="(size, idx) in item.sizes"
+          :key="idx"
+        >
+          {{ size.label }}
         </div>
       </div>
     </div>
@@ -21,10 +27,14 @@
       <div class="colors">
         <div
           class="color-item"
+          :class="{ active: color.color_id === color_id }"
           v-for="(color, cidx) in item.images"
           :key="cidx"
-          :style="{ 'background-color': color.color }"
-          @click="() => selectColor(cidx)"
+          :style="{
+            'background-color': color.color,
+            display: color.is_main ? 'block' : 'none',
+          }"
+          @click="() => onClickColor(color.color_id)"
         />
       </div>
     </div>
@@ -41,7 +51,14 @@
           <div class="input-bt input-bt-remove" style="" v-on:click="remove()">
             -
           </div>
-          <button class="button-add">ADD TO CART</button>
+          <button
+            @click="addToCart"
+            :disabled="!size_id || !color_id"
+            class="button-add"
+            v-if="isLoggedIn"
+          >
+            ADD TO CART
+          </button>
           <div class="fav-item">
             <font-awesome-icon class="social-item" icon="fa-solid fa-heart" />
           </div>
@@ -58,6 +75,34 @@
       <template #expandIcon="props">
         <a-icon type="caret-right" :rotate="props.isActive ? 90 : 0" />
       </template>
+      <a-collapse-panel :showArrow="false" key="0" header="Size Guide">
+        <div class="size-guide">
+          <div class="button-row">
+            <div
+              class="inch"
+              :class="{ active: unit === 'inch' }"
+              @click="() => activeUnit('inch')"
+            >
+              INCH
+            </div>
+            <div
+              class="cm"
+              :class="{ active: unit === 'cm' }"
+              @click="() => activeUnit('cm')"
+            >
+              CM
+            </div>
+          </div>
+          <a-table
+            :pagination="false"
+            bordered
+            row-key="size_id"
+            :columns="columns"
+            :data-source="item.size_guides"
+          >
+          </a-table>
+        </div>
+      </a-collapse-panel>
       <a-collapse-panel :showArrow="false" key="1" header="Product Detail">
         <p>{{ item.description }}</p>
       </a-collapse-panel>
@@ -72,36 +117,6 @@
         <p>{{ item.moreinformation }}</p>
       </a-collapse-panel>
     </a-collapse>
-
-    <!-- <a-collapse :bordered="false">
-      <template #expandIcon="props">
-        <a-icon type="caret-right" :rotate="props.isActive ? 90 : 0" />
-      </template>
-      <a-collapse-panel
-        key="1"
-        header="This is panel header 1"
-        :style="customStyle"
-        :showArrow="false"
-      >
-        <p>{{ text }}</p>
-      </a-collapse-panel>
-      <a-collapse-panel
-        key="2"
-        header="This is panel header 2"
-        :style="customStyle"
-        :showArrow="false"
-      >
-        <p>{{ text }}</p>
-      </a-collapse-panel>
-      <a-collapse-panel
-        key="3"
-        header="This is panel header 3"
-        :style="customStyle"
-        :showArrow="false"
-      >
-        <p>{{ text }}</p>
-      </a-collapse-panel>
-    </a-collapse> -->
     <!-- <div class="shared-main">
       <div class="shared">Shared</div>
       <a-row class="social-wrapper">
@@ -152,9 +167,38 @@ export default {
       data: "",
       images: {},
       qty: 1,
+      size_id: "",
+      color_id: "",
+      unit: "inch",
     };
   },
+  computed: {
+    columns() {
+      return [
+        {
+          dataIndex: "size",
+          key: "size",
+          title: "Size",
+        },
+        {
+          dataIndex: `chest_${this.unit}`,
+          key: "chest_inch",
+          title: "Chest",
+        },
+        {
+          dataIndex: `length_${this.unit}`,
+          key: "length_inch",
+          title: "Length",
+        },
+      ];
+    },
+    ...mapGetters("product", ["product"]),
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
   methods: {
+    activeUnit(_unit) {
+      this.unit = _unit;
+    },
     add() {
       this.qty = this.qty + 1;
     },
@@ -164,11 +208,43 @@ export default {
     getTag() {
       if (this.item.tags) return this.item.tags.toString();
     },
+    onClickColor(_color_id) {
+      this.color_id = _color_id;
+      this.selectColor(_color_id);
+    },
+    onClickSize(_size_id) {
+      this.size_id = _size_id;
+    },
+    async addToCart() {
+      if (!this.size_id || !this.color_id) {
+        return;
+      }
+      await this.addCartItem({
+        amount: this.qty,
+        product_id: this.item.id,
+        size_id: this.size_id,
+        color_id: this.color_id,
+      });
+      await this.getCartItems();
+      this.setIsShowCart(true);
+    },
+    ...mapActions("common", ["setIsShowCart"]),
+    ...mapActions("cart", ["addCartItem", "getCartItems"]),
   },
-  computed: {
-    ...mapGetters("product", ["product"]),
+  watch: {
+    product() {
+      this.size_id =
+        this.item &&
+        this.item.sizes &&
+        this.item.sizes.length &&
+        this.item.sizes[0].size_id;
+      this.color_id =
+        this.item &&
+        this.item.images &&
+        this.item.images.length &&
+        this.item.images[0].color_id;
+    },
   },
-  watch: {},
 };
 </script>
 
@@ -184,6 +260,7 @@ export default {
   width: 32px;
   height: 32px;
   text-align: center;
+  cursor: pointer;
 
   font-size: 16px;
   display: inherit;
@@ -223,6 +300,7 @@ export default {
   font-size: 16px;
   margin-left: 25px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .input-bt-add {
@@ -290,6 +368,12 @@ export default {
     display: inherit;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    &.active {
+      background-color: #212121;
+      color: #fff;
+    }
   }
 }
 
@@ -335,6 +419,45 @@ export default {
     height: 32px;
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 4px;
+
+    &.active {
+      transition: all 200ms ease-in;
+      transform: scale(1.2);
+      box-shadow: 0px 0px 150px #000000;
+    }
+  }
+}
+
+.size-guide {
+  .button-row {
+    width: fit-content;
+    display: flex;
+    border: 1px solid #212121;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    .inch {
+      padding: 5px;
+      border-right: 1px solid #212121;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+
+      &.active {
+        background-color: #212121;
+        color: #fff;
+      }
+    }
+
+    .cm {
+      padding: 5px;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      &.active {
+        background-color: #212121;
+        color: #fff;
+      }
+    }
   }
 }
 

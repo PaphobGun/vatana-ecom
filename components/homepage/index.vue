@@ -9,7 +9,9 @@
           :xs="idx === 0 ? { span: 24 } : { span: 12 }"
           :lg="idx === 0 ? { span: 12 } : { span: 6 }"
         >
-          <img :src="b.img" alt="img" class="homepage__banners__item__pic" />
+          <nuxt-link to="/promotion">
+            <img :src="b.img" alt="img" class="homepage__banners__item__pic" />
+          </nuxt-link>
         </a-col>
       </a-row>
       <div class="homepage__category__top">
@@ -35,7 +37,7 @@
       </a-row>
       <div class="homepage__featured__top">
         <h1 class="title">Featured Products</h1>
-        <nuxt-link to="" class="link"> View all </nuxt-link>
+        <nuxt-link to="/products" class="link"> View all </nuxt-link>
       </div>
       <a-row
         class="homepage__featured"
@@ -102,7 +104,7 @@
       </a-row>
       <div class="homepage__lookbook__top">
         <h1 class="title">Lookbooks</h1>
-        <nuxt-link to="" class="link"> View all </nuxt-link>
+        <nuxt-link to="lookbooks" class="link"> View all </nuxt-link>
       </div>
       <a-col
         class="homepage__lookbook__item"
