@@ -24,7 +24,7 @@
         </nuxt-link>
       </div>
       <div class="right-menu">
-        <a-icon class="menu-icon" type="search" />
+        <a-icon class="menu-icon" type="search" @click="onClickSearch" />
         <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
         <a-icon @click="onClickCart" class="menu-icon" type="shopping" />
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
@@ -64,6 +64,20 @@
     >
       <cart />
     </a-drawer>
+    <a-drawer
+      placement="top"
+      class="search-drawer"
+      :visible="isShowSearchBar"
+      @close="closeSearchBar"
+      :afterVisibleChange="afterOpenSearchBar"
+    >
+      <a-input
+        v-model="searchTerm"
+        ref="searchInput"
+        class="search-input"
+        @keyup.enter="onSearch"
+      />
+    </a-drawer>
   </a-layout-header>
 </template>
 
@@ -86,9 +100,27 @@ export default {
       isShowLoginModal: false,
       isShowRegisterModal: false,
       isShowRequestResetPasswordModal: false,
+      isShowSearchBar: false,
+      searchTerm: "",
     };
   },
   methods: {
+    onClickSearch() {
+      this.isShowSearchBar = true;
+    },
+    closeSearchBar() {
+      this.isShowSearchBar = false;
+    },
+    afterOpenSearchBar(isShow) {
+      if (isShow) {
+        this.$refs.searchInput.$el.focus();
+      }
+    },
+    async onSearch() {
+      this.$router.push({ path: `/products?q=${this.searchTerm}` });
+      this.searchTerm = "";
+      this.closeSearchBar();
+    },
     async onClickCart() {
       await this.getCartItems();
       this.setIsShowCart(true);
@@ -233,6 +265,10 @@ body {
 #menu-toggle:checked + .menu-button-container .menu-button::after {
   margin-top: 0px;
   transform: rotate(-405deg);
+}
+
+.search-input {
+  width: 90%;
 }
 
 @media (max-width: 768px) {

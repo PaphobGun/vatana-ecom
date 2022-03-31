@@ -130,6 +130,7 @@ export default {
     // max-width: 135px;
 
     .top {
+      min-height: 150px;
       .product-image {
         width: 100%;
       }

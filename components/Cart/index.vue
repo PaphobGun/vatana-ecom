@@ -8,14 +8,14 @@
           :key="i.id"
           :gutter="[24, 16]"
         >
-          <a-col :span="6" class="img-wrapper">
+          <a-col :span="6" class="img-wrapper" v-if="i.product">
             <img
               :src="getImg(i.color_id, i.product.images)"
               alt=""
               class="image"
             />
           </a-col>
-          <a-col :span="12">
+          <a-col :span="12" v-if="i.product">
             <div class="name">
               {{ i.product.name }}
             </div>
@@ -48,7 +48,7 @@
               />
             </div>
           </a-col>
-          <div class="price">฿ {{ i.product.price }}</div>
+          <div v-if="i.product" class="price">฿ {{ i.product.price }}</div>
         </a-row>
       </div>
       <div class="total-price">

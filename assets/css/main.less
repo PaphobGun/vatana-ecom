@@ -130,12 +130,20 @@ body {
   }
 }
 
+.search-drawer {
+  .ant-drawer-content-wrapper {
+    height: unset !important;
+  }
+}
+
 @media (max-width: 450px) {
   .ant-layout-header {
     padding: 0 30px;
   }
 
-  .ant-drawer-content-wrapper {
-    width: 256px !important;
+  .cart-drawer {
+    .ant-drawer-content-wrapper {
+      width: 350px !important;
+    }
   }
 }

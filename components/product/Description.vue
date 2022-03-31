@@ -117,7 +117,7 @@
         <p>{{ item.moreinformation }}</p>
       </a-collapse-panel>
     </a-collapse>
-    <div class="shared-main">
+    <!-- <div class="shared-main">
       <div class="shared">Shared</div>
       <a-row class="social-wrapper">
         <font-awesome-icon
@@ -137,7 +137,7 @@
           icon="fa-brands fa-sm fa-facebook-messenger"
         />
       </a-row>
-    </div>
+    </div> -->
   </div>
 </template>
 
