@@ -130,7 +130,11 @@ export default {
     this.criteria.minPrice = min;
     this.criteria.maxPrice = max;
 
-    this.fetchProducts(this.criteria, this.page, this.sort);
+    this.fetchProducts(
+      { ...this.criteria, q: this.$route.query.q },
+      this.page,
+      this.sort
+    );
   },
   computed: {
     filteredItems() {
@@ -172,6 +176,8 @@ export default {
         colors: [],
         size: [],
       };
+
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onClickSort(_sort) {
       this.sort = _sort.key;
@@ -194,7 +200,7 @@ export default {
         this.criteria.collections = [...this.criteria.collections, item];
       }
 
-      console.log(this.criteria.collections);
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onCategoriesChange(item) {
       const target = this.criteria.categories.find(
@@ -207,8 +213,7 @@ export default {
       } else {
         this.criteria.categories = [...this.criteria.categories, item];
       }
-
-      console.log(this.criteria.categories);
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onColorsChange(cid, name) {
       const target = this.criteria.colors.find((c) => c.id === cid);
@@ -218,7 +223,7 @@ export default {
         this.criteria.colors = [...this.criteria.colors, { id: cid, name }];
       }
 
-      console.log(this.criteria.colors);
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onSizeChange(s) {
       const target = this.criteria.size.find((_s) => _s.id === s.id);
@@ -228,17 +233,21 @@ export default {
         this.criteria.size = [...this.criteria.size, s];
       }
 
-      console.log(this.criteria.size);
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onDelFilter(item) {
       this.criteria[item.type] = this.criteria[item.type].filter(
         (_item) => _item.id !== item.id
       );
+
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     onPriceChange(value) {
       const [min, max] = value;
       this.criteria.minPrice = min;
       this.criteria.maxPrice = max;
+
+      this.fetchProducts(this.criteria, this.page, this.sort);
     },
     async fetchProducts(criteria, page, sort) {
       this.isLoading = true;
@@ -269,7 +278,7 @@ export default {
           )
         );
 
-        await this.fetchProducts(this.criteria, this.page, this.sort);
+        // await this.fetchProducts(this.criteria, this.page, this.sort);
       },
       deep: true,
     },

@@ -37,7 +37,7 @@ export default {
     },
     images: {
       type: Array,
-      default: [],
+      default: () => [],
     },
   },
 };
@@ -46,12 +46,13 @@ export default {
 <style lang="less" scoped>
 .image {
   width: 100%;
+  height: calc(100vh - 95px);
 }
 .ant-carousel ::v-deep .slick-slide {
   text-align: center;
-  height: 160px;
-  line-height: 160px;
-  background: #364d79;
+  // height: 160px;
+  // line-height: 160px;
+  background: #212121;
   overflow: hidden;
 }
 
@@ -60,14 +61,13 @@ export default {
   height: 25px;
   font-size: 25px;
   color: #fff;
-  background-color: rgba(31, 45, 61, 0.11);
-  opacity: 0.3;
+  opacity: 1;
 }
 .ant-carousel ::v-deep .custom-slick-arrow:before {
   display: none;
 }
 .ant-carousel ::v-deep .custom-slick-arrow:hover {
-  opacity: 0.5;
+  // opacity: 0.5;
 }
 
 .ant-carousel ::v-deep .slick-slide h3 {

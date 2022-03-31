@@ -28,7 +28,6 @@ export default {
   },
   computed: {
     myProds() {
-      console.log(this.products);
       return this.products;
     },
     ...mapGetters("products", ["products"]),

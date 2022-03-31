@@ -4,11 +4,7 @@
       <a-row>
         <a-col :span="24">
           <div class="promotion__banner">
-            <img
-              src="https://www.techhub.in.th/wp-content/uploads/2017/11/11street-black-friday.jpg"
-              alt=""
-              class="promotion__banner__img"
-            />
+            <img :src="bannerImg" alt="" class="promotion__banner__img" />
           </div>
         </a-col>
       </a-row>
@@ -43,15 +39,13 @@ export default {
     ProductCard,
   },
   created() {
-    this.getProducts({
-      page: 1,
-    });
+    this.getPromotion();
   },
   computed: {
-    ...mapGetters("products", ["products"]),
+    ...mapGetters("promotion", ["products", "bannerImg"]),
   },
   methods: {
-    ...mapActions("products", ["getProducts"]),
+    ...mapActions("promotion", ["getPromotion"]),
   },
 };
 </script>

@@ -11,9 +11,11 @@
             <nuxt-link to="/products"> PRODUCT </nuxt-link>
           </li>
           <li class="menu-dis">
-            <nuxt-link to="/promotion"> PROMOTION </nuxt-link>
+            <nuxt-link to="/new-arrival"> NEW ARRIVALS </nuxt-link>
           </li>
-          <li class="menu-dis">LOOKBOOK</li>
+          <li class="menu-dis">
+            <nuxt-link to="/lookbooks">LOOKBOOK </nuxt-link>
+          </li>
         </ul>
       </section>
       <div class="center-menu">
@@ -22,15 +24,18 @@
         </nuxt-link>
       </div>
       <div class="right-menu">
-        <a-icon class="menu-icon" type="search" />
+        <a-icon class="menu-icon" type="search" @click="onClickSearch" />
         <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
-        <a-icon class="menu-icon" type="shopping" />
+        <a-icon @click="onClickCart" class="menu-icon" type="shopping" />
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
         <a-dropdown class="menu-item">
           <a-icon type="user" />
           <a-menu slot="overlay" @click="onClickAuthMenu">
-            <a-menu-item key="in" v-if="!isLoggedIn"> SIGN IN </a-menu-item>
-            <a-menu-item key="out" v-else> SIGN OUT </a-menu-item>
+            <a-menu-item key="profile" v-if="isLoggedIn">
+              <nuxt-link to="/profile"> Profile </nuxt-link>
+            </a-menu-item>
+            <a-menu-item key="in" v-if="!isLoggedIn"> Sign in </a-menu-item>
+            <a-menu-item key="out" v-else> Sign out </a-menu-item>
           </a-menu>
         </a-dropdown>
       </div>
@@ -50,6 +55,29 @@
       :isShow="isShowRequestResetPasswordModal"
       :onClose="closeRequestResetPasswordModal"
     />
+    <a-drawer
+      :title="`Shopping Cart (${totalAmount})`"
+      placement="right"
+      :visible="isShowCart"
+      @close="closeCart"
+      class="cart-drawer"
+    >
+      <cart />
+    </a-drawer>
+    <a-drawer
+      placement="top"
+      class="search-drawer"
+      :visible="isShowSearchBar"
+      @close="closeSearchBar"
+      :afterVisibleChange="afterOpenSearchBar"
+    >
+      <a-input
+        v-model="searchTerm"
+        ref="searchInput"
+        class="search-input"
+        @keyup.enter="onSearch"
+      />
+    </a-drawer>
   </a-layout-header>
 </template>
 
@@ -58,25 +86,52 @@ import { mapGetters, mapActions } from "vuex";
 import LoginModal from "../auth/LoginModal.vue";
 import RegisterModal from "../auth/RegisterModal.vue";
 import RequestResetPasswordModal from "../auth/RequestResetPasswordModal.vue";
+import Cart from "@/components/Cart";
 
 export default {
   components: {
     LoginModal,
     RegisterModal,
     RequestResetPasswordModal,
+    Cart,
   },
   data() {
     return {
       isShowLoginModal: false,
       isShowRegisterModal: false,
       isShowRequestResetPasswordModal: false,
+      isShowSearchBar: false,
+      searchTerm: "",
     };
   },
   methods: {
+    onClickSearch() {
+      this.isShowSearchBar = true;
+    },
+    closeSearchBar() {
+      this.isShowSearchBar = false;
+    },
+    afterOpenSearchBar(isShow) {
+      if (isShow) {
+        this.$refs.searchInput.$el.focus();
+      }
+    },
+    async onSearch() {
+      this.$router.push({ path: `/products?q=${this.searchTerm}` });
+      this.searchTerm = "";
+      this.closeSearchBar();
+    },
+    async onClickCart() {
+      await this.getCartItems();
+      this.setIsShowCart(true);
+    },
+    closeCart() {
+      this.setIsShowCart(false);
+    },
     onClickAuthMenu(menu) {
       if (menu.key === "in") {
         this.showLoginModal();
-      } else {
+      } else if (menu.key === "out") {
         this.signOut();
       }
     },
@@ -98,11 +153,14 @@ export default {
     closeRequestResetPasswordModal() {
       this.isShowRequestResetPasswordModal = false;
     },
+    ...mapActions("common", ["setIsShowCart"]),
     ...mapActions("auth", ["signOut"]),
+    ...mapActions("cart", ["getCartItems"]),
   },
   computed: {
-    ...mapGetters("common", ["isMobile", "isTablet"]),
+    ...mapGetters("common", ["isMobile", "isTablet", "isShowCart"]),
     ...mapGetters("auth", ["isLoggedIn"]),
+    ...mapGetters("cart", ["totalAmount"]),
   },
 };
 </script>
@@ -209,6 +267,10 @@ body {
   transform: rotate(-405deg);
 }
 
+.search-input {
+  width: 90%;
+}
+
 @media (max-width: 768px) {
   .menu-button-container {
     display: flex;
@@ -304,7 +366,7 @@ body {
     }
 
     .menu-icon:nth-child(3) {
-      margin-right: 20px;
+      cursor: pointer;
     }
 
     .menu-item {
