@@ -20,13 +20,13 @@
         <img v-if="image.url" class="product-image" :src="image.url" alt="" />
       </a-col>
       <div v-if="isMobile || isTablet" :sm="{ span: 24 }" class="group-warpper">
-        <a-row
-          class=""
-          v-for="(img, idx) in item.images"
-          :key="idx"
-          @click="() => selectImg(idx)"
-        >
-          <img class="group-item" :src="img.url" alt="" />
+        <a-row class="" v-for="(img, idx) in item.images" :key="idx">
+          <img
+            @click="() => selectImg(idx)"
+            class="group-item"
+            :src="img.url"
+            alt=""
+          />
         </a-row>
       </div>
     </a-row>
