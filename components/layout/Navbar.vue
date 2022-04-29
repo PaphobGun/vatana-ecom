@@ -28,18 +28,26 @@
         <nuxt-link to="/favourite" class="fav-wrapper">
           <a-icon v-if="isLoggedIn" class="menu-icon" type="heart" />
         </nuxt-link>
-        <a-icon
-          v-if="isLoggedIn"
-          @click="onClickCart"
-          class="menu-icon"
-          type="shopping"
-        />
+        <div class="cart-icon-wrapper">
+          <a-icon
+            v-if="isLoggedIn"
+            @click="onClickCart"
+            class="menu-icon cart-icon"
+            type="shopping"
+          />
+          <div v-if="totalAmount" class="cart-count">
+            {{ totalAmount }}
+          </div>
+        </div>
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
         <a-dropdown class="menu-item">
           <a-icon type="user" />
           <a-menu slot="overlay" @click="onClickAuthMenu">
             <a-menu-item key="profile" v-if="isLoggedIn">
               <nuxt-link to="/profile"> Profile </nuxt-link>
+            </a-menu-item>
+            <a-menu-item key="orders" v-if="isLoggedIn">
+              <nuxt-link to="/orders"> My Orders </nuxt-link>
             </a-menu-item>
             <a-menu-item key="in" v-if="!isLoggedIn"> Sign in </a-menu-item>
             <a-menu-item key="out" v-else> Sign out </a-menu-item>
@@ -370,6 +378,29 @@ body {
     display: flex;
     margin-left: auto;
     align-items: center;
+
+    .cart-icon-wrapper {
+      position: relative;
+      display: inherit;
+      .cart-icon {
+      }
+
+      .cart-count {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        line-height: 1;
+        border-radius: 50px;
+        font-size: 12px;
+        background-color: #000;
+        color: #fff;
+        top: -10px;
+        right: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
 
     .menu-icon {
       font-size: 16px;

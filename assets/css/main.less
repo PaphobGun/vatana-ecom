@@ -127,6 +127,14 @@ body {
 .cart-drawer {
   .ant-drawer-content-wrapper {
     width: 420px !important;
+
+    .ant-drawer-content {
+      .ant-drawer-wrapper-body {
+        .ant-drawer-body {
+          height: calc(100vh - 56px);
+        }
+      }
+    }
   }
 }
 
@@ -138,7 +146,7 @@ body {
 
 @media (max-width: 450px) {
   .ant-layout-header {
-    padding: 0 30px;
+    padding: 0 10px;
   }
 
   .cart-drawer {

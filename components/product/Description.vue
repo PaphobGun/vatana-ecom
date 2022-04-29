@@ -446,6 +446,7 @@ export default {
     width: 32px;
     height: 32px;
     box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #000;
     border-radius: 4px;
 
     &.active {

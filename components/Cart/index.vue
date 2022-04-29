@@ -52,9 +52,12 @@
         </a-row>
       </div>
       <div class="total-price">
-        <div class="text">Subtotal</div>
+        <div class="text">Total</div>
         <div class="total">฿ {{ totalPrice }}</div>
       </div>
+      <nuxt-link v-if="totalAmount" to="/checkout" class="checkout-btn-wrapper">
+        <a-button block class="checkout-btn">Checkout</a-button>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -69,7 +72,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("cart", ["cartItems", "totalPrice"]),
+    ...mapGetters("cart", ["cartItems", "totalPrice", "totalAmount"]),
   },
   methods: {
     getImg(cid, images) {
@@ -122,7 +125,11 @@ export default {
 
 <style lang="less" scoped>
 .cart {
+  height: 100%;
   .content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     .cart-items {
       .cart-item {
         position: relative;
@@ -213,6 +220,17 @@ export default {
       justify-content: space-between;
       font-size: 20px;
       color: #212121;
+    }
+
+    .checkout-btn-wrapper {
+      margin-top: auto;
+      .checkout-btn {
+        background-color: #000;
+        color: #fff;
+        padding: 10px;
+        height: unset;
+        border-radius: 8px;
+      }
     }
   }
 }
