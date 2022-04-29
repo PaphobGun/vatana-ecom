@@ -10,12 +10,12 @@
           <li class="menu-dis">
             <nuxt-link to="/products"> PRODUCT </nuxt-link>
           </li>
-          <!-- <li class="menu-dis">
+          <li class="menu-dis">
             <nuxt-link to="/new-arrival"> NEW ARRIVALS </nuxt-link>
           </li>
           <li class="menu-dis">
             <nuxt-link to="/lookbooks">LOOKBOOK </nuxt-link>
-          </li> -->
+          </li>
         </ul>
       </section>
       <div class="center-menu">
@@ -25,15 +25,22 @@
       </div>
       <div class="right-menu">
         <a-icon class="menu-icon" type="search" @click="onClickSearch" />
-        <a-icon v-if="!isMobile" class="menu-icon" type="heart" />
-        <!-- <a-icon @click="onClickCart" class="menu-icon" type="shopping" /> -->
+        <nuxt-link to="/favourite" class="fav-wrapper">
+          <a-icon v-if="isLoggedIn" class="menu-icon" type="heart" />
+        </nuxt-link>
+        <a-icon
+          v-if="isLoggedIn"
+          @click="onClickCart"
+          class="menu-icon"
+          type="shopping"
+        />
         <a-icon v-if="isTablet" class="menu-icon" type="user" />
         <a-dropdown class="menu-item">
           <a-icon type="user" />
           <a-menu slot="overlay" @click="onClickAuthMenu">
-            <!-- <a-menu-item key="profile" v-if="isLoggedIn">
+            <a-menu-item key="profile" v-if="isLoggedIn">
               <nuxt-link to="/profile"> Profile </nuxt-link>
-            </a-menu-item> -->
+            </a-menu-item>
             <a-menu-item key="in" v-if="!isLoggedIn"> Sign in </a-menu-item>
             <a-menu-item key="out" v-else> Sign out </a-menu-item>
           </a-menu>
@@ -76,6 +83,7 @@
         ref="searchInput"
         class="search-input"
         @keyup.enter="onSearch"
+        placeholder="Search by Product name, category, collection etc"
       />
     </a-drawer>
   </a-layout-header>
@@ -166,6 +174,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.fav-wrapper {
+  display: inherit;
+}
+
 h2 {
   vertical-align: center;
   text-align: center;
@@ -363,9 +375,6 @@ body {
       font-size: 16px;
       color: #000;
       margin-right: 15px;
-    }
-
-    .menu-icon:nth-child(3) {
       cursor: pointer;
     }
 

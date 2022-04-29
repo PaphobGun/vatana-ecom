@@ -21,6 +21,7 @@ export default {
   plugins: [
     "@/plugins/antd-ui",
     "@/plugins/fontawesome",
+    "@/plugins/lodash",
     { src: "@/plugins/persistedState.client.js" },
   ],
 

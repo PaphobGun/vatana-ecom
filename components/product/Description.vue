@@ -39,7 +39,7 @@
       </div>
     </div>
     <hr />
-    <!-- <div class="flex-wrap">
+    <div class="flex-wrap">
       <a-row class="flex-wrap center" style="">
         <a-row class="flex-wrap">
           <div class="input-bt input-bt-add" style="" v-on:click="add()">+</div>
@@ -59,13 +59,22 @@
           >
             ADD TO CART
           </button>
-          <div class="fav-item">
-            <font-awesome-icon class="social-item" icon="fa-solid fa-heart" />
+          <div v-if="isLoggedIn">
+            <div
+              class="fav-item fav"
+              v-if="item.is_favorite"
+              @click="() => clickRemoveFav(item.id)"
+            >
+              <font-awesome-icon class="social-item" icon="fa-heart" />
+            </div>
+            <div v-else class="fav-item" @click="() => clickAddFav(item.id)">
+              <font-awesome-icon class="social-item" icon="fa-heart" />
+            </div>
           </div>
         </a-row>
       </a-row>
     </div>
-    <hr /> -->
+    <hr />
     <div></div>
     <div>SKU: {{ item.sku }}</div>
     <div>Category: {{ item.category }}</div>
@@ -196,6 +205,14 @@ export default {
     ...mapGetters("auth", ["isLoggedIn"]),
   },
   methods: {
+    async clickAddFav(product_id) {
+      await this.addFavourite(product_id);
+      await this.getProduct(product_id);
+    },
+    async clickRemoveFav(product_id) {
+      await this.removeFavourite(product_id);
+      await this.getProduct(product_id);
+    },
     activeUnit(_unit) {
       this.unit = _unit;
     },
@@ -230,6 +247,8 @@ export default {
     },
     ...mapActions("common", ["setIsShowCart"]),
     ...mapActions("cart", ["addCartItem", "getCartItems"]),
+    ...mapActions("favourite", ["addFavourite", "removeFavourite"]),
+    ...mapActions("product", ["getProduct"]),
   },
   watch: {
     product() {
@@ -254,6 +273,15 @@ export default {
   color: #000;
 }
 .fav-item {
+  ::v-deep.fa-heart {
+    color: rgba(211, 211, 211, 0.6);
+  }
+  &.fav {
+    ::v-deep .fa-heart {
+      color: #000;
+    }
+  }
+
   border: 1px solid #000;
   border-radius: 2px;
   margin-right: 5px;
@@ -263,7 +291,7 @@ export default {
   cursor: pointer;
 
   font-size: 16px;
-  display: inherit;
+  display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 25px;

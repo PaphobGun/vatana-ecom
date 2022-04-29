@@ -3,7 +3,7 @@
     <div class="container">
       <a-row v-if="product" :gutter="[8, 8]">
         <a-col :lg="{ span: 12 }" :xs="24" :sm="{ span: 24 }">
-          <Gallery :item="images" />
+          <Gallery :item="customProduct" />
           <div class="related-top">
             <RelatedProduct :products="relatedProducts" />
           </div>
@@ -37,7 +37,8 @@ export default {
   data() {
     return {
       data: "",
-      images: {},
+      images: [],
+      customProduct: {},
     };
   },
   async created() {
@@ -45,11 +46,19 @@ export default {
       this.getProduct(this.$route.params.id),
       this.getRelatedProducts(this.$route.params.id),
     ]);
-    this.images = this.product;
+    this.customProduct = {
+      ...this._.cloneDeep(this.product),
+      images: this.product.images.filter(
+        (i) => i.color_id === this.product.images[0].color_id
+      ),
+    };
   },
   methods: {
-    selectColor(index) {
-      // this.images = this.product.img[index];
+    selectColor(color_id) {
+      this.customProduct = {
+        ...this.customProduct,
+        images: this.product.images.filter((i) => i.color_id === color_id),
+      };
     },
     ...mapActions("product", ["getProduct", "getRelatedProducts"]),
   },

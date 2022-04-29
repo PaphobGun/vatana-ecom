@@ -116,16 +116,29 @@
         <img :src="l.img" alt="img" class="homepage__lookbook__item__pic" />
       </a-col>
     </div>
+    <banner-modal
+      :isShow="isShowBannerModal"
+      :onClose="closeBannerModal"
+      image="banner-line.png"
+    />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
 import Carousel from "../common/Carousel.vue";
+import BannerModal from "@/components/common/BannerModal.vue";
 
 export default {
   components: {
     Carousel,
+    BannerModal,
+  },
+  data() {
+    return {
+      isShowBannerModal: true,
+    };
   },
   created() {
     this.getHomepage();
@@ -140,6 +153,9 @@ export default {
     ]),
   },
   methods: {
+    closeBannerModal() {
+      this.isShowBannerModal = false;
+    },
     ...mapActions("homepage", ["getHomepage"]),
   },
 };

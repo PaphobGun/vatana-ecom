@@ -1,23 +1,25 @@
 <template>
-  <div class="default-layout">
-    <a-layout>
-      <Navbar />
-      <a-layout-content class="default-layout-content"
-        ><Nuxt
-      /></a-layout-content>
-      <Footer />
-    </a-layout>
-  </div>
+  <client-only>
+    <div class="default-layout">
+      <a-layout>
+        <Navbar />
+        <a-layout-content class="default-layout-content"
+          ><Nuxt
+        /></a-layout-content>
+        <Footer />
+      </a-layout>
+    </div>
+  </client-only>
 </template>
 
 <script>
 import Navbar from "../components/layout/Navbar.vue";
-import Footer from '../components/layout/Footer.vue';
+import Footer from "../components/layout/Footer.vue";
 
 export default {
   components: {
     Navbar,
-    Footer
+    Footer,
   },
   methods: {
     resize() {

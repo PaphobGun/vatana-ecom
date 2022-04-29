@@ -62,11 +62,7 @@
         </div>
       </a-col>
     </a-row>
-    <banner-modal
-      :isShow="isShowBannerModal"
-      :onClose="closeBannerModal"
-      image="banner-line.png"
-    />
+
     <a-drawer
       :visible="isShowFilter"
       @close="closeFilter"
@@ -93,14 +89,12 @@ import { mapActions, mapGetters } from "vuex";
 import Filters from "./Filters.vue";
 import PaginationProduct from "./PaginationProduct.vue";
 import Pagination from "../common/Pagination.vue";
-import BannerModal from "@/components/common/BannerModal.vue";
 
 export default {
   components: {
     Filters,
     PaginationProduct,
     Pagination,
-    BannerModal,
   },
   data() {
     return {
@@ -115,7 +109,7 @@ export default {
       page: 1,
       sort: "asc",
       isLoading: false,
-      isShowBannerModal: true,
+
       isShowFilter: false,
     };
   },
@@ -162,9 +156,7 @@ export default {
     closeFilter() {
       this.isShowFilter = false;
     },
-    closeBannerModal() {
-      this.isShowBannerModal = false;
-    },
+
     clearFilter() {
       const [min, max] = this.priceFilter;
       this.page = 1;
