@@ -48,12 +48,14 @@
               />
             </div>
           </a-col>
-          <div v-if="i.product" class="price">฿ {{ i.product.price }}</div>
+          <div v-if="i.product" class="price">
+            ฿ {{ formatCurrency(i.product.price) }}
+          </div>
         </a-row>
       </div>
       <div class="total-price">
         <div class="text">Total</div>
-        <div class="total">฿ {{ totalPrice }}</div>
+        <div class="total">฿ {{ formatCurrency(totalPrice) }}</div>
       </div>
       <nuxt-link v-if="totalAmount" to="/checkout" class="checkout-btn-wrapper">
         <a-button block class="checkout-btn">Checkout</a-button>
@@ -64,6 +66,9 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
+import { formatCurrency } from "@/utils/common";
+
 export default {
   data() {
     return {
@@ -75,6 +80,7 @@ export default {
     ...mapGetters("cart", ["cartItems", "totalPrice", "totalAmount"]),
   },
   methods: {
+    formatCurrency,
     getImg(cid, images) {
       return images.find((i) => i.color_id === cid).url;
     },

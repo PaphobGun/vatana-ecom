@@ -15,7 +15,7 @@
           </a-col>
           <a-col :lg="{ span: 10 }">
             <div v-for="p in o.products" :key="p.product_id">
-              {{ p.product.name }}
+              <div v-if="!_.isEmpty(p.product)">{{ p.product.name }}</div>
             </div>
           </a-col>
           <a-col :lg="{ span: 4 }">
@@ -28,7 +28,7 @@
             <div>
               {{ formatDate(o.createdAt) }}
             </div>
-            <div>
+            <div v-if="!_.isEmpty(o.payments)">
               <span class="label">Total Price:</span>
               {{ formatCurrency(o.payments.amount) }}
             </div>

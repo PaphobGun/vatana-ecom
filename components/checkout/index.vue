@@ -73,12 +73,14 @@
                 </div>
                 <div class="amount">x {{ i.amount }}</div>
               </a-col>
-              <div v-if="i.product" class="price">฿ {{ i.product.price }}</div>
+              <div v-if="i.product" class="price">
+                ฿ {{ formatCurrency(i.product.price) }}
+              </div>
             </a-row>
           </div>
           <div class="total-price">
             <div class="text">Total</div>
-            <div class="total">฿ {{ totalPrice }}</div>
+            <div class="total">฿ {{ formatCurrency(totalPrice) }}</div>
           </div>
         </div>
         <div class="mt-20 payment-wrapper">
@@ -131,7 +133,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-import { getBase64 } from "@/utils/common";
+import { getBase64, formatCurrency } from "@/utils/common";
 import HttpClient from "@/utils/httpClient";
 
 export default {
@@ -151,6 +153,7 @@ export default {
     ...mapGetters("profile", ["address"]),
   },
   methods: {
+    formatCurrency,
     handleChange(info) {
       if (info.file.status === "uploading") {
         this.uploading = true;
