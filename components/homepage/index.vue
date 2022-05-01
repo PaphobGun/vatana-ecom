@@ -100,21 +100,23 @@
         <h1 class="title">Lookbooks</h1>
         <nuxt-link to="lookbooks" class="link"> View all </nuxt-link>
       </div>
-      <a-col
-        class="homepage__lookbook__item"
-        v-for="l in lookbook"
-        :key="l.id"
-        :sm="12"
-        :lg="8"
-      >
-        <nuxt-link :to="`/lookbooks/${l.id}`">
-          <img
-            :src="l.image_url"
-            alt="img"
-            class="homepage__lookbook__item__pic"
-          />
-        </nuxt-link>
-      </a-col>
+      <a-row :gutter="[16, 16]">
+        <a-col
+          class="homepage__lookbook__item"
+          v-for="l in lookbook"
+          :key="l.id"
+          :sm="12"
+          :lg="8"
+        >
+          <nuxt-link :to="`/lookbooks/${l.id}`">
+            <img
+              :src="l.image_url"
+              alt="img"
+              class="homepage__lookbook__item__pic"
+            />
+          </nuxt-link>
+        </a-col>
+      </a-row>
     </div>
     <banner-modal
       :isShow="isShowBannerModal"
@@ -142,7 +144,6 @@ export default {
   },
   async created() {
     this.getHomepage();
-    console.log(this.banner);
   },
   computed: {
     ...mapGetters("homepage", [
@@ -280,6 +281,7 @@ export default {
       &__pic {
         border-radius: 4px;
         width: 100%;
+        max-height: 540px;
       }
     }
   }
