@@ -193,7 +193,7 @@ export default {
       &__pic {
         border-radius: 4px;
         width: 100%;
-        // height: 260px;
+        max-height: 260px;
       }
     }
   }
