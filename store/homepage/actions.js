@@ -8,8 +8,8 @@ export default {
       data,
     });
 
-    commit("SET_HOMEPAGE", homepage.data);
+    commit("SET_HOMEPAGE", homepage);
 
-    return homepage.data;
+    return homepage;
   },
 };

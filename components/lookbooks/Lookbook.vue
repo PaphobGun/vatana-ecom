@@ -1,6 +1,6 @@
 <template>
   <div class="lookbook">
-    <carousel :images="lookbooks.map((l) => l.image)" />
+    <carousel :images="lookbooks.map((l) => l.image_url)" />
   </div>
 </template>
 

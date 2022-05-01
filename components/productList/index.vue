@@ -105,6 +105,7 @@ export default {
         categories: [],
         colors: [],
         size: [],
+        is_discount: "",
       },
       page: 1,
       sort: "asc",
@@ -123,6 +124,29 @@ export default {
     const [min, max] = this.priceFilter;
     this.criteria.minPrice = min;
     this.criteria.maxPrice = max;
+
+    const { query } = this.$route;
+
+    if (query.is_discount === "true") {
+      this.criteria.is_discount = true;
+    }
+
+    if (query.collection) {
+      const target = this.collections.find((c) => c.id == query.collection);
+      if (target) {
+        this.criteria.collections = [
+          ...this.criteria.collections,
+          { ...target },
+        ];
+      }
+    }
+
+    if (query.category) {
+      const target = this.categories.find((c) => c.id == query.category);
+      if (target) {
+        this.criteria.categories = [...this.criteria.categories, { ...target }];
+      }
+    }
 
     this.fetchProducts(
       { ...this.criteria, q: this.$route.query.q },
@@ -147,7 +171,12 @@ export default {
 
       return [...collectionsMap, ...categoriesMap, ...colorsMap, ...sizeMap];
     },
-    ...mapGetters("products", ["totalItems", "priceFilter"]),
+    ...mapGetters("products", [
+      "totalItems",
+      "priceFilter",
+      "collections",
+      "categories",
+    ]),
   },
   methods: {
     showFilter() {
@@ -167,6 +196,7 @@ export default {
         categories: [],
         colors: [],
         size: [],
+        is_discount: "",
       };
 
       this.fetchProducts(this.criteria, this.page, this.sort);

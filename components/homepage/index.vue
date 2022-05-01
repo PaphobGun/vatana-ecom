@@ -4,29 +4,39 @@
       <a-row class="homepage__banners" :gutter="[16, 16]">
         <a-col
           class="homepage__banners__item"
-          v-for="(b, idx) in banner.items"
-          :key="b.uuid"
+          v-for="(b, idx) in banner"
+          :key="b.id"
           :xs="idx === 0 ? { span: 24 } : { span: 12 }"
           :lg="idx === 0 ? { span: 12 } : { span: 6 }"
         >
-          <nuxt-link to="/promotion">
-            <img :src="b.img" alt="img" class="homepage__banners__item__pic" />
+          <nuxt-link :to="`/products?collection=${b.id}`">
+            <img
+              :src="b.image_url"
+              alt="img"
+              class="homepage__banners__item__pic"
+            />
           </nuxt-link>
         </a-col>
       </a-row>
       <div class="homepage__category__top">
         <h1 class="title">Shop by Categories</h1>
-        <nuxt-link to="" class="link"> View all </nuxt-link>
+        <nuxt-link to="/products" class="link"> View all </nuxt-link>
       </div>
       <a-row class="homepage__category" :gutter="[16, 16]">
         <a-col
           class="homepage__category__item"
-          v-for="c in category.items"
-          :key="c.uuid"
+          v-for="c in category"
+          :key="c.id"
           :xs="12"
           :lg="4"
         >
-          <img :src="c.img" alt="img" class="homepage__category__item__pic" />
+          <nuxt-link :to="`/products?category=${c.id}`">
+            <img
+              :src="c.image_url"
+              alt="img"
+              class="homepage__category__item__pic"
+            />
+          </nuxt-link>
         </a-col>
         <!-- <div class="homepage__category__carousel">
           <Carousel
@@ -41,64 +51,48 @@
       </div>
       <a-row
         class="homepage__featured"
-        v-if="featuredProduct.items.length"
+        v-if="featuredProduct.length"
         :gutter="[16, 16]"
       >
-        <a-col class="homepage__featured__item" :xs="24" :lg="12">
-          <img
-            :src="featuredProduct.items[0].img"
-            atl="img"
-            class="homepage__featured__item__pic"
-          />
-        </a-col>
-        <a-col :xs="24" :lg="12">
-          <a-row :gutter="[16, 16]">
-            <a-col class="homepage__featured__item" :span="12">
-              <img
-                :src="featuredProduct.items[1].img"
-                atl="img"
-                class="homepage__featured__item__pic"
-              />
-            </a-col>
-            <a-col class="homepage__featured__item" :span="12">
-              <img
-                :src="featuredProduct.items[2].img"
-                atl="img"
-                class="homepage__featured__item__pic"
-              />
-            </a-col>
-          </a-row>
-          <a-row :gutter="[16, 16]">
-            <a-col class="homepage__featured__item" :span="12">
-              <img
-                :src="featuredProduct.items[3].img"
-                atl="img"
-                class="homepage__featured__item__pic"
-              />
-            </a-col>
-            <a-col class="homepage__featured__item" :span="12">
-              <img
-                :src="featuredProduct.items[4].img"
-                atl="img"
-                class="homepage__featured__item__pic"
-              />
-            </a-col>
-          </a-row>
+        <a-col
+          v-for="p in featuredProduct"
+          :key="p.id"
+          class="homepage__featured__item"
+          :xs="12"
+          :lg="4"
+        >
+          <nuxt-link :to="`/product/${p.id}`">
+            <img
+              v-if="!_.isEmpty(p.image)"
+              :src="p.image.url"
+              atl="img"
+              class="homepage__featured__item__pic"
+            />
+          </nuxt-link>
         </a-col>
       </a-row>
       <div class="homepage__sales__top">
         <h1 class="title">Sales Products</h1>
-        <nuxt-link to="" class="link"> View all </nuxt-link>
+        <nuxt-link to="/products?is_discount=true" class="link">
+          View all
+        </nuxt-link>
       </div>
       <a-row class="homepage__sales" :gutter="[16, 16]">
         <a-col
           class="homepage__sales__item"
-          v-for="s in salesProduct.items"
-          :key="s.uuid"
-          :sm="12"
-          :lg="8"
+          v-for="s in salesProduct"
+          :key="s.id"
+          :xs="12"
+          :lg="4"
         >
-          <img :src="s.img" alt="img" class="homepage__sales__item__pic" />
+          <nuxt-link :to="`product/${s.id}`">
+            <img
+              v-if="!_.isEmpty(s.image)"
+              :src="s.image.url"
+              alt="img"
+              class="homepage__sales__item__pic"
+            />
+          </nuxt-link>
           <div class="discount">{{ s.discount }} %</div>
         </a-col>
       </a-row>
@@ -108,12 +102,18 @@
       </div>
       <a-col
         class="homepage__lookbook__item"
-        v-for="l in lookbook.items"
-        :key="l.uuid"
+        v-for="l in lookbook"
+        :key="l.id"
         :sm="12"
         :lg="8"
       >
-        <img :src="l.img" alt="img" class="homepage__lookbook__item__pic" />
+        <nuxt-link :to="`/lookbooks/${l.id}`">
+          <img
+            :src="l.image_url"
+            alt="img"
+            class="homepage__lookbook__item__pic"
+          />
+        </nuxt-link>
       </a-col>
     </div>
     <banner-modal
@@ -140,8 +140,9 @@ export default {
       isShowBannerModal: true,
     };
   },
-  created() {
+  async created() {
     this.getHomepage();
+    console.log(this.banner);
   },
   computed: {
     ...mapGetters("homepage", [
@@ -191,7 +192,7 @@ export default {
       &__pic {
         border-radius: 4px;
         width: 100%;
-        height: 260px;
+        // height: 260px;
       }
     }
   }
@@ -229,6 +230,7 @@ export default {
       &__pic {
         border-radius: 4px;
         width: 100%;
+        max-height: 160px;
       }
     }
   }
@@ -248,6 +250,7 @@ export default {
       &__pic {
         border-radius: 4px;
         width: 100%;
+        max-height: 160px;
       }
 
       .discount {

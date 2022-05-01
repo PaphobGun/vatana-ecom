@@ -12,7 +12,7 @@
           :key="l.id"
         >
           <nuxt-link :to="`/lookbooks/${l.id}`">
-            <img class="image" alt="lookbook" :src="l.image" />
+            <img class="image" alt="lookbook" :src="l.image_url" />
           </nuxt-link>
         </a-col>
       </a-row>

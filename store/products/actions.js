@@ -32,6 +32,7 @@ export default {
         maxPrice: params.criteria?.maxPrice,
         size: params.criteria?.size?.map((s) => s.id),
         q: params.criteria?.q,
+        is_discount: params.criteria?.is_discount,
       },
     });
 

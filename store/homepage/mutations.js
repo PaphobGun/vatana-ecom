@@ -1,9 +1,10 @@
 export default {
   SET_HOMEPAGE(state, _homepage) {
-    state.banner = _homepage.banner;
-    state.category = _homepage.category;
-    state.featuredProduct = _homepage.featuredProduct;
-    state.salesProduct = _homepage.salesProduct;
-    state.lookbook = _homepage.lookbook;
+    console.log(_homepage);
+    state.banner = _homepage.collections;
+    state.category = _homepage.categories;
+    state.featuredProduct = _homepage.features;
+    state.salesProduct = _homepage.sales;
+    state.lookbook = _homepage.lookbooks;
   },
 };

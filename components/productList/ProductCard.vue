@@ -16,6 +16,7 @@
           @click="() => selectColor(cidx)"
         />
       </div>
+      <div v-if="item.discount" class="discount">{{ item.discount }} %</div>
     </div>
     <div class="bottom">
       <div class="name">
@@ -72,8 +73,19 @@ export default {
   .top {
     position: relative;
     min-height: 195px;
+
+    .discount {
+      color: #fff;
+      background-color: #ec4949;
+      font-size: 14px;
+      position: absolute;
+      padding: 8px;
+      top: 10%;
+      left: -1%;
+    }
     .product-image {
       width: 100%;
+      max-height: 208px;
     }
 
     .colors {

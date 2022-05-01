@@ -16,7 +16,7 @@
                 :lg="{ span: 8 }"
                 :md="{ span: 8 }"
                 :sm="{ span: 7 }"
-                :xs="7"
+                :xs="12"
               >
                 <h3>About</h3>
                 <a-col class="group-warpper">
